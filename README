@@ -1,3 +1,4 @@
 WordExtinction: This is the code for "Growth and Decay," a two-player word game
 originally created for the Global Game Jam 2011, at the Miami University site
-in Oxford, OH.
+in Oxford, OH. This is an Eclipse project, so you should just be able to use the
+import option to get working.
