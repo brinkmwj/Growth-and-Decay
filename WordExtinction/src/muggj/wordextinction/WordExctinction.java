@@ -14,7 +14,6 @@
  * 2011-01-29, 10:03pm, EST - Bo
  */
 
-
 package muggj.wordextinction;
 
 import java.io.BufferedReader;
@@ -78,7 +77,7 @@ public class WordExctinction extends Activity  {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		rnd = new Random();
-
+		
 		mView = new WEView(this);
 		setContentView(mView);
 		mView.setOnTouchListener(mView);
@@ -107,134 +106,138 @@ public class WordExctinction extends Activity  {
 		//shearTile = BitmapFactory.decodeResource(res, R.drawable.gardensheers);
 		bgs = new Bitmap[127];
 
-		bgs[0] = BitmapFactory.decodeResource(res, R.drawable.bg0001);
-		bgs[1] = BitmapFactory.decodeResource(res, R.drawable.bg0002);
-		bgs[2] = BitmapFactory.decodeResource(res, R.drawable.bg0003);
-		bgs[3] = BitmapFactory.decodeResource(res, R.drawable.bg0004);
+		System.gc();
+		BitmapFactory.Options options=new BitmapFactory.Options();
+		options.inSampleSize = 1;
+		//bgs[0] = BitmapFactory.decodeResource(res, R.drawable.bg0001);
+		//bgs[1] = BitmapFactory.decodeResource(res, R.drawable.bg0002);
+		/*bgs[2] = BitmapFactory.decodeResource(res, R.drawable.bg0003);
+		//bgs[3] = BitmapFactory.decodeResource(res, R.drawable.bg0004);
 		bgs[4] = BitmapFactory.decodeResource(res, R.drawable.bg0005);
-		bgs[5] = BitmapFactory.decodeResource(res, R.drawable.bg0006);
+		//bgs[5] = BitmapFactory.decodeResource(res, R.drawable.bg0006);
 		bgs[6] = BitmapFactory.decodeResource(res, R.drawable.bg0007);
-		bgs[7] = BitmapFactory.decodeResource(res, R.drawable.bg0008);
+		//bgs[7] = BitmapFactory.decodeResource(res, R.drawable.bg0008);
 		bgs[8] = BitmapFactory.decodeResource(res, R.drawable.bg0009);
-		bgs[9] = BitmapFactory.decodeResource(res, R.drawable.bg0010);
+		//bgs[9] = BitmapFactory.decodeResource(res, R.drawable.bg0010);
 		bgs[10] = BitmapFactory.decodeResource(res, R.drawable.bg0011);
-		bgs[11] = BitmapFactory.decodeResource(res, R.drawable.bg0012);
+		//bgs[11] = BitmapFactory.decodeResource(res, R.drawable.bg0012);
 		bgs[12] = BitmapFactory.decodeResource(res, R.drawable.bg0013);
-		bgs[13] = BitmapFactory.decodeResource(res, R.drawable.bg0014);
+		//bgs[13] = BitmapFactory.decodeResource(res, R.drawable.bg0014);
 		bgs[14] = BitmapFactory.decodeResource(res, R.drawable.bg0015);
-		bgs[15] = BitmapFactory.decodeResource(res, R.drawable.bg0016);
+		//bgs[15] = BitmapFactory.decodeResource(res, R.drawable.bg0016);
 		bgs[16] = BitmapFactory.decodeResource(res, R.drawable.bg0017);
-		bgs[17] = BitmapFactory.decodeResource(res, R.drawable.bg0018);
+		//bgs[17] = BitmapFactory.decodeResource(res, R.drawable.bg0018);
 		bgs[18] = BitmapFactory.decodeResource(res, R.drawable.bg0019);
-		bgs[19] = BitmapFactory.decodeResource(res, R.drawable.bg0020);
+		//bgs[19] = BitmapFactory.decodeResource(res, R.drawable.bg0020);
 		bgs[20] = BitmapFactory.decodeResource(res, R.drawable.bg0021);
-		bgs[21] = BitmapFactory.decodeResource(res, R.drawable.bg0022);
+		//bgs[21] = BitmapFactory.decodeResource(res, R.drawable.bg0022);
 		bgs[22] = BitmapFactory.decodeResource(res, R.drawable.bg0023);
-		bgs[23] = BitmapFactory.decodeResource(res, R.drawable.bg0024);
+		//bgs[23] = BitmapFactory.decodeResource(res, R.drawable.bg0024);
 		bgs[24] = BitmapFactory.decodeResource(res, R.drawable.bg0025);
-		bgs[25] = BitmapFactory.decodeResource(res, R.drawable.bg0026);
+		//bgs[25] = BitmapFactory.decodeResource(res, R.drawable.bg0026);
 		bgs[26] = BitmapFactory.decodeResource(res, R.drawable.bg0027);
-		bgs[27] = BitmapFactory.decodeResource(res, R.drawable.bg0028);
-		bgs[28] = BitmapFactory.decodeResource(res, R.drawable.bg0029);
-		bgs[29] = BitmapFactory.decodeResource(res, R.drawable.bg0030);
-		bgs[30] = BitmapFactory.decodeResource(res, R.drawable.bg0031);
-		bgs[31] = BitmapFactory.decodeResource(res, R.drawable.bg0032);
+		//bgs[27] = BitmapFactory.decodeResource(res, R.drawable.bg0028);
+		bgs[28] = BitmapFactory.decodeResource(res, R.drawable.bg0029);*/
+		bgs[29] = BitmapFactory.decodeResource(res, R.drawable.bg0030,options);
+		/*bgs[30] = BitmapFactory.decodeResource(res, R.drawable.bg0031);
+		//bgs[31] = BitmapFactory.decodeResource(res, R.drawable.bg0032);
 		bgs[32] = BitmapFactory.decodeResource(res, R.drawable.bg0033);
-		bgs[33] = BitmapFactory.decodeResource(res, R.drawable.bg0034);
+		//bgs[33] = BitmapFactory.decodeResource(res, R.drawable.bg0034);
 		bgs[34] = BitmapFactory.decodeResource(res, R.drawable.bg0035);
-		bgs[35] = BitmapFactory.decodeResource(res, R.drawable.bg0036);
+		//bgs[35] = BitmapFactory.decodeResource(res, R.drawable.bg0036);
 		bgs[36] = BitmapFactory.decodeResource(res, R.drawable.bg0037);
-		bgs[37] = BitmapFactory.decodeResource(res, R.drawable.bg0038);
+		//bgs[37] = BitmapFactory.decodeResource(res, R.drawable.bg0038);
 		bgs[38] = BitmapFactory.decodeResource(res, R.drawable.bg0039);
-		bgs[39] = BitmapFactory.decodeResource(res, R.drawable.bg0040);
+		//bgs[39] = BitmapFactory.decodeResource(res, R.drawable.bg0040);
 		bgs[40] = BitmapFactory.decodeResource(res, R.drawable.bg0041);
-		bgs[41] = BitmapFactory.decodeResource(res, R.drawable.bg0042);
+		//bgs[41] = BitmapFactory.decodeResource(res, R.drawable.bg0042);
 		bgs[42] = BitmapFactory.decodeResource(res, R.drawable.bg0043);
-		bgs[43] = BitmapFactory.decodeResource(res, R.drawable.bg0044);
+		//bgs[43] = BitmapFactory.decodeResource(res, R.drawable.bg0044);
 		bgs[44] = BitmapFactory.decodeResource(res, R.drawable.bg0045);
-		bgs[45] = BitmapFactory.decodeResource(res, R.drawable.bg0046);
+		//bgs[45] = BitmapFactory.decodeResource(res, R.drawable.bg0046);
 		bgs[46] = BitmapFactory.decodeResource(res, R.drawable.bg0047);
-		bgs[47] = BitmapFactory.decodeResource(res, R.drawable.bg0048);
+		//bgs[47] = BitmapFactory.decodeResource(res, R.drawable.bg0048);
 		bgs[48] = BitmapFactory.decodeResource(res, R.drawable.bg0049);
-		bgs[49] = BitmapFactory.decodeResource(res, R.drawable.bg0050);
+		//bgs[49] = BitmapFactory.decodeResource(res, R.drawable.bg0050);
 		bgs[50] = BitmapFactory.decodeResource(res, R.drawable.bg0051);
-		bgs[51] = BitmapFactory.decodeResource(res, R.drawable.bg0052);
+		//bgs[51] = BitmapFactory.decodeResource(res, R.drawable.bg0052);
 		bgs[52] = BitmapFactory.decodeResource(res, R.drawable.bg0053);
-		bgs[53] = BitmapFactory.decodeResource(res, R.drawable.bg0054);
+		//bgs[53] = BitmapFactory.decodeResource(res, R.drawable.bg0054);
 		bgs[54] = BitmapFactory.decodeResource(res, R.drawable.bg0056);
-		bgs[55] = BitmapFactory.decodeResource(res, R.drawable.bg0057);
+		//bgs[55] = BitmapFactory.decodeResource(res, R.drawable.bg0057);
 		bgs[56] = BitmapFactory.decodeResource(res, R.drawable.bg0058);
-		bgs[57] = BitmapFactory.decodeResource(res, R.drawable.bg0059);
-		bgs[58] = BitmapFactory.decodeResource(res, R.drawable.bg0060);
-		bgs[59] = BitmapFactory.decodeResource(res, R.drawable.splash0001);
-		bgs[60] = BitmapFactory.decodeResource(res, R.drawable.splash0002);
-		bgs[61] = BitmapFactory.decodeResource(res, R.drawable.splash0003);
+		//bgs[57] = BitmapFactory.decodeResource(res, R.drawable.bg0059);*/
+		bgs[58] = BitmapFactory.decodeResource(res, R.drawable.bg0060,options);
+		//bgs[59] = BitmapFactory.decodeResource(res, R.drawable.splash0001);
+		/*bgs[60] = BitmapFactory.decodeResource(res, R.drawable.splash0002);
+		//bgs[61] = BitmapFactory.decodeResource(res, R.drawable.splash0003);
 		bgs[62] = BitmapFactory.decodeResource(res, R.drawable.splash0004);
-		bgs[63] = BitmapFactory.decodeResource(res, R.drawable.splash0005);
+		//bgs[63] = BitmapFactory.decodeResource(res, R.drawable.splash0005);
 		bgs[64] = BitmapFactory.decodeResource(res, R.drawable.splash0006);
-		bgs[65] = BitmapFactory.decodeResource(res, R.drawable.splash0007);
+		//bgs[65] = BitmapFactory.decodeResource(res, R.drawable.splash0007);
 		bgs[66] = BitmapFactory.decodeResource(res, R.drawable.splash0008);
-		bgs[67] = BitmapFactory.decodeResource(res, R.drawable.splash0009);
+		//bgs[67] = BitmapFactory.decodeResource(res, R.drawable.splash0009);
 		bgs[68] = BitmapFactory.decodeResource(res, R.drawable.splash0010);
-		bgs[69] = BitmapFactory.decodeResource(res, R.drawable.splash0011);
+		//bgs[69] = BitmapFactory.decodeResource(res, R.drawable.splash0011);
 		bgs[70] = BitmapFactory.decodeResource(res, R.drawable.splash0012);
-		bgs[71] = BitmapFactory.decodeResource(res, R.drawable.splash0013);
+		//bgs[71] = BitmapFactory.decodeResource(res, R.drawable.splash0013);
 		bgs[72] = BitmapFactory.decodeResource(res, R.drawable.splash0014);
-		bgs[73] = BitmapFactory.decodeResource(res, R.drawable.splash0015);
+		//bgs[73] = BitmapFactory.decodeResource(res, R.drawable.splash0015);
 		bgs[74] = BitmapFactory.decodeResource(res, R.drawable.splash0016);
-		bgs[75] = BitmapFactory.decodeResource(res, R.drawable.splash0017);
+		//bgs[75] = BitmapFactory.decodeResource(res, R.drawable.splash0017);
 		bgs[76] = BitmapFactory.decodeResource(res, R.drawable.splash0018);
-		bgs[77] = BitmapFactory.decodeResource(res, R.drawable.splash0019);
+		//bgs[77] = BitmapFactory.decodeResource(res, R.drawable.splash0019);
 		bgs[78] = BitmapFactory.decodeResource(res, R.drawable.splash0020);
-		bgs[79] = BitmapFactory.decodeResource(res, R.drawable.splash0021);
+		//bgs[79] = BitmapFactory.decodeResource(res, R.drawable.splash0021);
 		bgs[80] = BitmapFactory.decodeResource(res, R.drawable.splash0022);
-		bgs[81] = BitmapFactory.decodeResource(res, R.drawable.splash0023);
+		//bgs[81] = BitmapFactory.decodeResource(res, R.drawable.splash0023);
 		bgs[82] = BitmapFactory.decodeResource(res, R.drawable.splash0024);
-		bgs[83] = BitmapFactory.decodeResource(res, R.drawable.splash0025);
+		//bgs[83] = BitmapFactory.decodeResource(res, R.drawable.splash0025);
 		bgs[84] = BitmapFactory.decodeResource(res, R.drawable.splash0026);
-		bgs[85] = BitmapFactory.decodeResource(res, R.drawable.splash0027);
+		//bgs[85] = BitmapFactory.decodeResource(res, R.drawable.splash0027);
 		bgs[86] = BitmapFactory.decodeResource(res, R.drawable.splash0028);
-		bgs[87] = BitmapFactory.decodeResource(res, R.drawable.splash0029);
+		//bgs[87] = BitmapFactory.decodeResource(res, R.drawable.splash0029);
 		bgs[88] = BitmapFactory.decodeResource(res, R.drawable.splash0030);
-		bgs[89] = BitmapFactory.decodeResource(res, R.drawable.splash0031);
+		//bgs[89] = BitmapFactory.decodeResource(res, R.drawable.splash0031);
 		bgs[90] = BitmapFactory.decodeResource(res, R.drawable.splash0032);
-		bgs[91] = BitmapFactory.decodeResource(res, R.drawable.splash0033);
+		//bgs[91] = BitmapFactory.decodeResource(res, R.drawable.splash0033);
 		bgs[92] = BitmapFactory.decodeResource(res, R.drawable.splash0034);
-		bgs[93] = BitmapFactory.decodeResource(res, R.drawable.splash0035);
+		//bgs[93] = BitmapFactory.decodeResource(res, R.drawable.splash0035);
 		bgs[94] = BitmapFactory.decodeResource(res, R.drawable.splash0036);
-		bgs[95] = BitmapFactory.decodeResource(res, R.drawable.splash0037);
+		//bgs[95] = BitmapFactory.decodeResource(res, R.drawable.splash0037);
 		bgs[96] = BitmapFactory.decodeResource(res, R.drawable.splash0038);
-		bgs[97] = BitmapFactory.decodeResource(res, R.drawable.splash0039);
+		//bgs[97] = BitmapFactory.decodeResource(res, R.drawable.splash0039);
 		bgs[98] = BitmapFactory.decodeResource(res, R.drawable.splash0040);
-		bgs[99] = BitmapFactory.decodeResource(res, R.drawable.splash0041);
+		//bgs[99] = BitmapFactory.decodeResource(res, R.drawable.splash0041);
 		bgs[100] = BitmapFactory.decodeResource(res, R.drawable.splash0042);
-		bgs[101] = BitmapFactory.decodeResource(res, R.drawable.splash0043);
+		//bgs[101] = BitmapFactory.decodeResource(res, R.drawable.splash0043);
 		bgs[102] = BitmapFactory.decodeResource(res, R.drawable.splash0044);
-		bgs[103] = BitmapFactory.decodeResource(res, R.drawable.splash0045);
+		//bgs[103] = BitmapFactory.decodeResource(res, R.drawable.splash0045);
 		bgs[104] = BitmapFactory.decodeResource(res, R.drawable.splash0046);
-		bgs[105] = BitmapFactory.decodeResource(res, R.drawable.splash0047);
+		//bgs[105] = BitmapFactory.decodeResource(res, R.drawable.splash0047);
 		bgs[106] = BitmapFactory.decodeResource(res, R.drawable.splash0048);
-		bgs[107] = BitmapFactory.decodeResource(res, R.drawable.splash0049);
+		//bgs[107] = BitmapFactory.decodeResource(res, R.drawable.splash0049);
 		bgs[108] = BitmapFactory.decodeResource(res, R.drawable.splash0050);
-		bgs[109] = BitmapFactory.decodeResource(res, R.drawable.splash0051);
+		//bgs[109] = BitmapFactory.decodeResource(res, R.drawable.splash0051);
 		bgs[110] = BitmapFactory.decodeResource(res, R.drawable.splash0052);
-		bgs[111] = BitmapFactory.decodeResource(res, R.drawable.splash0053);
+		//bgs[111] = BitmapFactory.decodeResource(res, R.drawable.splash0053);
 		bgs[112] = BitmapFactory.decodeResource(res, R.drawable.splash0054);
-		bgs[113] = BitmapFactory.decodeResource(res, R.drawable.splash0055);
+		//bgs[113] = BitmapFactory.decodeResource(res, R.drawable.splash0055);
 		bgs[114] = BitmapFactory.decodeResource(res, R.drawable.splash0056);
-		bgs[115] = BitmapFactory.decodeResource(res, R.drawable.splash0057);
+		//bgs[115] = BitmapFactory.decodeResource(res, R.drawable.splash0057);
 		bgs[116] = BitmapFactory.decodeResource(res, R.drawable.splash0058);
-		bgs[117] = BitmapFactory.decodeResource(res, R.drawable.splash0059);
+		//bgs[117] = BitmapFactory.decodeResource(res, R.drawable.splash0059);
 		bgs[118] = BitmapFactory.decodeResource(res, R.drawable.splash0060);
-		bgs[119] = BitmapFactory.decodeResource(res, R.drawable.splash0061);
+		//bgs[119] = BitmapFactory.decodeResource(res, R.drawable.splash0061);
 		bgs[120] = BitmapFactory.decodeResource(res, R.drawable.splash0062);
-		bgs[121] = BitmapFactory.decodeResource(res, R.drawable.splash0063);
+		//bgs[121] = BitmapFactory.decodeResource(res, R.drawable.splash0063);
 		bgs[122] = BitmapFactory.decodeResource(res, R.drawable.splash0064);
-		bgs[123] = BitmapFactory.decodeResource(res, R.drawable.splash0065);
+		//bgs[123] = BitmapFactory.decodeResource(res, R.drawable.splash0065);
 		bgs[124] = BitmapFactory.decodeResource(res, R.drawable.splash0066);
-		bgs[125] = BitmapFactory.decodeResource(res, R.drawable.splash0067);
-		bgs[126] = BitmapFactory.decodeResource(res, R.drawable.splash0068);
+		//bgs[125] = BitmapFactory.decodeResource(res, R.drawable.splash0067);*/
+		bgs[126] = BitmapFactory.decodeResource(res, R.drawable.splash0068,options);
 		
+		System.gc();
 		greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut);
 		activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut);
 		checkedButton = BitmapFactory.decodeResource(res, R.drawable.checkbutton);
@@ -398,12 +401,19 @@ public class WordExctinction extends Activity  {
 					y += 7;
 					if(y >= getHeight()+sqSize) done = true;
 					
+					if(whichPlayer == 1){
+						c.save();
+						c.rotate(180,getWidth()/2,getHeight()/2);
+					}
 					if(charbgs[whichLetter-'a'] == 0){
 						c.drawBitmap(petal1, null, new Rect(x,y-sqSize/2,x+sqSize,y+sqSize/2),null);
 					} else if(charbgs[whichLetter-'a'] == 1){
 						c.drawBitmap(petal2, null, new Rect(x,y-sqSize/2,x+sqSize,y+sqSize/2),null);
 					} else {
 						c.drawBitmap(petal3, null, new Rect(x,y-sqSize/2,x+sqSize,y+sqSize/2),null);
+					}
+					if(whichPlayer == 1){
+						c.restore();
 					}
 					break;
 
@@ -445,7 +455,7 @@ public class WordExctinction extends Activity  {
 			p2BigMallets = 0;
 			gameover = false;
 
-			whichBG = 59;
+			whichBG = 60;
 
 
 
@@ -527,33 +537,40 @@ public class WordExctinction extends Activity  {
 			mDrawable.setBounds(0,0,getWidth(),getHeight());
 			//mDrawable.draw(c);
 
-			if(mode == 0 || mode == 1){
-				c.drawBitmap(bgs[whichBG], null, new Rect(0,getHeight()/2,getWidth(),getHeight()), null);
+			whichBG = 0;
+			if(mode == 0){
+				c.drawBitmap(bgs[29], null, new Rect(0,getHeight()/2,getWidth(),getHeight()), null);
 				c.save();
 				c.rotate(180,getWidth()/2,getHeight()/2);
-				c.drawBitmap(bgs[whichBG], null, new Rect(0,getHeight()/2,getWidth(),getHeight()), null);
+				c.drawBitmap(bgs[29], null, new Rect(0,getHeight()/2,getWidth(),getHeight()), null);
+				c.restore();
+			} else if(mode == 1){
+				c.drawBitmap(bgs[58], null, new Rect(0,getHeight()/2,getWidth(),getHeight()), null);
+				c.save();
+				c.rotate(180,getWidth()/2,getHeight()/2);
+				c.drawBitmap(bgs[58], null, new Rect(0,getHeight()/2,getWidth(),getHeight()), null);
 				c.restore();
 			} else {
-				c.drawBitmap(bgs[whichBG], null, new Rect(0,0,getWidth(),getHeight()), null);
+				c.drawBitmap(bgs[126], null, new Rect(0,0,getWidth(),getHeight()), null);
 			}
 
-			whichBG+=1;
+			whichBG+=2;
 			if(mode == 0){
-				if(whichBG > 29)
-					whichBG = 29;
+				if(whichBG > 28)
+					whichBG = 28;
 			}else if(mode == 1){
 				if(whichBG > 58)
 					whichBG = 58;
 			}else if(mode == 2){
-				if(whichBG > 58+67){
-					whichBG = 58+67;
+				//if(whichBG > 58+66){
+					//whichBG = 58+66;
 					openingdone = true;
 					Paint p = new Paint();
 					p.setTextAlign(Align.CENTER);
 					p.setTextSize(sqSize/2);
 					p.setColor(0xffffffff);
 					c.drawText("Tap to play", 5*sqSize, getHeight()/2+sqSize/2, p);
-				}
+				//}
 				
 				//TODO make this only fire 24 times per second!
 				try {
@@ -1094,7 +1111,7 @@ public class WordExctinction extends Activity  {
 			if(gameover){
 				gameover = false;
 				mode = 2;
-				whichBG = 59;
+				whichBG = 60;
 				p1done = false;
 				p2done = false;
 
