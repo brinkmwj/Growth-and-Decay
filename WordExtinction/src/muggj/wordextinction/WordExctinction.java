@@ -799,7 +799,10 @@ public class WordExctinction extends Activity  {
 			p2word = "";
 			p1score = 0;
 			p2score = 0;
-
+			p1done = false;
+			p2done = false;
+			p1DecayDone = 0;
+			p2DecayDone = 0;
 			p1selected = -1;
 			p2selected = -1;
 			p1selected2 = -1;
@@ -956,22 +959,22 @@ public class WordExctinction extends Activity  {
 				gameover = true;
 				deList.clear();
 				if(p1score > p2score){
-					c.drawText("Winner!", getWidth()/2, getHeight()-sqSize, p);
+					c.drawText("Winner - "+p1score+" points", getWidth()/2, getHeight()-sqSize, p);
 					c.save();
 					c.rotate(180,getWidth()/2,getHeight()/2);
-					c.drawText("Loser!", getWidth()/2, getHeight()-sqSize, p);
+					c.drawText("" + p2score + " points", getWidth()/2, getHeight()-sqSize, p);
 					c.restore();
 				}else if(p2score > p1score){
-					c.drawText("Loser!", getWidth()/2, getHeight()-sqSize, p);
+					c.drawText("" + p1score + " points", getWidth()/2, getHeight()-sqSize, p);
 					c.save();
 					c.rotate(180,getWidth()/2,getHeight()/2);
-					c.drawText("Winner!", getWidth()/2, getHeight()-sqSize, p);
+					c.drawText("Winner - "+p2score+" points", getWidth()/2, getHeight()-sqSize, p);
 					c.restore();
 				}else{
-					c.drawText("Tie!", getWidth()/2, getHeight()-sqSize, p);
+					c.drawText("Tie - "+p1score+" points", getWidth()/2, getHeight()-sqSize, p);
 					c.save();
 					c.rotate(180,getWidth()/2,getHeight()/2);
-					c.drawText("Tie!", getWidth()/2, getHeight()-sqSize, p);
+					c.drawText("Tie - "+p2score+" points", getWidth()/2, getHeight()-sqSize, p);
 					c.restore();
 				}
 				inDraw = false;
