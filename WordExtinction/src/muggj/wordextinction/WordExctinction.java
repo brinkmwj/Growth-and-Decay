@@ -15,7 +15,7 @@
  * 
  * 
  * TODO LIST
- * 1) Add menu, "new game" option
+ * 		DONE 1) Add menu, "new game" option
  * 		DONE 2) Expand bounds where user can tap to place letters
  * 3) Add sound effects
  * 		DONE 4) Change effects colors
@@ -24,7 +24,9 @@
  * 		DONE 7) Add bitmap filter to all drawBitmap calls
  * 		DONE 8) Create a unified drawTile method
  * 		NO - #5 will fix this 9) Detect when no possible moves left in decay phase
- * 10) Allow dragging using touch up/down
+ * 		PARTIAL - It is not possible to use multi-touch dragging until
+ * 			API level 5 (Android 2.0), so I have elected not to 
+ * 			implement it 10) Allow dragging using touch up/down
  * 		DONE 11) Show bonus points for extinct words
  * 		DONE 12) Effects for left-over letters
  * 13) Is it possible to animate the background and still get good performance?
@@ -61,6 +63,9 @@ import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -75,16 +80,16 @@ public class WordExctinction extends Activity  {
 	Bitmap fl2TileImage;
 	Bitmap fl3TileImage;
 	//Bitmap shearTile;
-	
+
 	Bitmap bg;
-	
+
 	static int MSPERFRAME = 1000/24;
 	static int p1color = 0xfff17720;
 	static int p2color = 0xfff420e8;
 	static int textColor = 0xff000000;
 	static int textBorderColor = 0xffffffff;
 	static int textHighliteColor = 0xffffff00;
-	
+
 	Bitmap greyButton;
 	Bitmap activeButton;
 	Bitmap checkedButton;
@@ -99,21 +104,40 @@ public class WordExctinction extends Activity  {
 	int[] gbgs;
 	int[] dbgs;
 	int[] splashes;
-	
+
 	boolean inDraw;
-	
+
 	//2 is high, 1 is medium, 0 is low
 	int mGraphicsLevel;
-	
+
 	Paint bmP;
 
-	
+
 	//this is only needed for taking screenshots
 	/*public void onBackPressed() {
 
 	   return;
 	}*/
-	
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu, menu);
+		return true;
+	}
+
+
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.new_game:
+			mView.newGame();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 	public void loadBitmaps(){
 		Log.e("GaD","loadBitmaps called at level: "+mGraphicsLevel);
 		if(mGraphicsLevel == 2){
@@ -122,25 +146,25 @@ public class WordExctinction extends Activity  {
 				fl1TileImage = BitmapFactory.decodeResource(res, R.drawable.flower1_h);
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_h);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_h);
-				
+
 				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_h);//This is to test memory availability
-				
+
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_h);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_h);
 				checkedButton = BitmapFactory.decodeResource(res, R.drawable.checkbutton_h);
-		
+
 				shearsImage = BitmapFactory.decodeResource(res, R.drawable.gardenshears_h);
 				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_h);
-		
+
 				logoImage = BitmapFactory.decodeResource(res, R.drawable.icon_h);
-		
+
 				petal1 = BitmapFactory.decodeResource(res, R.drawable.petal1_h);
 				petal2 = BitmapFactory.decodeResource(res, R.drawable.petal2_h);
 				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_h);
-				
+
 				Log.e("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
-				
-				
+
+
 				/*splashes[ 0] = R.drawable.splash0002_m;
 				splashes[ 1] = R.drawable.splash0004_m;
 				splashes[ 2] = R.drawable.splash0006_m;
@@ -175,7 +199,7 @@ public class WordExctinction extends Activity  {
 				splashes[31] = R.drawable.splash0064_m;
 				splashes[32] = R.drawable.splash0066_m;*/
 				splashes[33] = R.drawable.splash0068_m;
-				
+
 				/*
 				gbgs[0] = R.drawable.bg0002_m;
 				gbgs[1] = R.drawable.bg0004_m;
@@ -192,7 +216,7 @@ public class WordExctinction extends Activity  {
 				gbgs[12] = R.drawable.bg0026_m;
 				gbgs[13] = R.drawable.bg0028_m;
 				gbgs[14] = R.drawable.bg0030_m;
-				
+
 				dbgs[0] = R.drawable.bg0032_m;
 				dbgs[1] = R.drawable.bg0034_m;
 				dbgs[2] = R.drawable.bg0036_m;
@@ -208,8 +232,8 @@ public class WordExctinction extends Activity  {
 				dbgs[12] = R.drawable.bg0056_m;
 				dbgs[13] = R.drawable.bg0058_m;
 				dbgs[14] = R.drawable.bg0060_m;
-				*/
-				
+				 */
+
 				/*gbgs[0] = R.drawable.bg0002_h;
 				gbgs[1] = R.drawable.bg0004_h;
 				gbgs[2] = R.drawable.bg0006_h;
@@ -225,7 +249,7 @@ public class WordExctinction extends Activity  {
 				gbgs[12] = R.drawable.bg0026_h;
 				gbgs[13] = R.drawable.bg0028_h;*/
 				gbgs[14] = R.drawable.bg0030_h;
-				
+
 				/*dbgs[0] = R.drawable.bg0032_h;
 				dbgs[1] = R.drawable.bg0034_h;
 				dbgs[2] = R.drawable.bg0036_h;
@@ -241,62 +265,62 @@ public class WordExctinction extends Activity  {
 				dbgs[12] = R.drawable.bg0056_h;
 				dbgs[13] = R.drawable.bg0058_h;*/
 				dbgs[14] = R.drawable.bg0060_h;
-				
-				
+
+
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
 				Log.e("GaD","Hi-res image load failed");
 				mGraphicsLevel = 1;
 			}
 		}
-		
+
 		if(mGraphicsLevel == 1){
 			//If loading hi-res failed, try medium res
-			
+
 			fl1TileImage = null;
 			fl2TileImage = null;
 			fl3TileImage = null;
-			
+
 			bg = null;
-			
+
 			greyButton = null;
 			activeButton = null;
 			checkedButton = null;
-	
+
 			shearsImage = null;
 			sickleImage = null;
-	
+
 			logoImage = null;
-	
+
 			petal1 = null;
 			petal2 = null;
 			petal3 = null;
 			System.gc();
-			
+
 			try{
 				fl1TileImage = BitmapFactory.decodeResource(res, R.drawable.flower1_m);
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_m);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_m);
-				
+
 				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_m);
-				
+
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_m);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_m);
 				checkedButton = BitmapFactory.decodeResource(res, R.drawable.checkbutton_m);
-		
+
 				shearsImage = BitmapFactory.decodeResource(res, R.drawable.gardenshears_m);
 				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_h);
-		
+
 				logoImage = BitmapFactory.decodeResource(res, R.drawable.icon_m);
-		
+
 				petal1 = BitmapFactory.decodeResource(res, R.drawable.petal1_m);
 				petal2 = BitmapFactory.decodeResource(res, R.drawable.petal2_m);
 				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_m);
-				
+
 				Log.e("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
-				
-				
-				
+
+
+
 				/*gbgs[0] = R.drawable.bg0002_m;
 				gbgs[1] = R.drawable.bg0004_m;
 				gbgs[2] = R.drawable.bg0006_m;
@@ -312,7 +336,7 @@ public class WordExctinction extends Activity  {
 				gbgs[12] = R.drawable.bg0026_m;
 				gbgs[13] = R.drawable.bg0028_m;*/
 				gbgs[14] = R.drawable.bg0030_m;
-				
+
 				/*dbgs[0] = R.drawable.bg0032_m;
 				dbgs[1] = R.drawable.bg0034_m;
 				dbgs[2] = R.drawable.bg0036_m;
@@ -328,7 +352,7 @@ public class WordExctinction extends Activity  {
 				dbgs[12] = R.drawable.bg0056_m;
 				dbgs[13] = R.drawable.bg0058_m;*/
 				dbgs[14] = R.drawable.bg0060_m;
-				
+
 				/*splashes[ 0] = R.drawable.splash0002_m;
 				splashes[ 1] = R.drawable.splash0004_m;
 				splashes[ 2] = R.drawable.splash0006_m;
@@ -369,50 +393,50 @@ public class WordExctinction extends Activity  {
 				mGraphicsLevel = 0;
 			}
 		}
-		
+
 		if(mGraphicsLevel == 0){
 			//If loading medium-res failed, try low-res
-			
+
 			fl1TileImage = null;
 			fl2TileImage = null;
 			fl3TileImage = null;
-			
+
 			bg = null;
-			
+
 			greyButton = null;
 			activeButton = null;
 			checkedButton = null;
-	
+
 			shearsImage = null;
 			sickleImage = null;
-	
+
 			logoImage = null;
-	
+
 			petal1 = null;
 			petal2 = null;
 			petal3 = null;
 			System.gc();
-			
+
 			try{
 				fl1TileImage = BitmapFactory.decodeResource(res, R.drawable.flower1_s);
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_s);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_s);
-				
+
 				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
-				
+
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_s);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_s);
 				checkedButton = BitmapFactory.decodeResource(res, R.drawable.checkbutton_s);
-		
+
 				shearsImage = BitmapFactory.decodeResource(res, R.drawable.gardenshears_s);
 				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_m);
-		
+
 				logoImage = BitmapFactory.decodeResource(res, R.drawable.icon_s);
-		
+
 				petal1 = BitmapFactory.decodeResource(res, R.drawable.petal1_s);
 				petal2 = BitmapFactory.decodeResource(res, R.drawable.petal2_s);
 				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_s);
-				
+
 				Log.e("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
 				/*gbgs[0] = R.drawable.bg0002_s;
 				gbgs[1] = R.drawable.bg0004_s;
@@ -429,7 +453,7 @@ public class WordExctinction extends Activity  {
 				gbgs[12] = R.drawable.bg0026_s;
 				gbgs[13] = R.drawable.bg0028_s;*/
 				gbgs[14] = R.drawable.bg0030_s;
-				
+
 				/*dbgs[0] = R.drawable.bg0032_s;
 				dbgs[1] = R.drawable.bg0034_s;
 				dbgs[2] = R.drawable.bg0036_s;
@@ -445,7 +469,7 @@ public class WordExctinction extends Activity  {
 				dbgs[12] = R.drawable.bg0056_s;
 				dbgs[13] = R.drawable.bg0058_s;*/
 				dbgs[14] = R.drawable.bg0060_s;
-				
+
 				/*splashes[ 0] = R.drawable.splash0002_s;
 				splashes[ 1] = R.drawable.splash0004_s;
 				splashes[ 2] = R.drawable.splash0006_s;
@@ -486,10 +510,10 @@ public class WordExctinction extends Activity  {
 				Log.e("GaD","Low-res image load failed");
 			}
 		}
-		
+
 		bg = null;
 	}
-	
+
 	public void loadWords(){
 		wordSet = new HashSet<String>();
 		res = getResources();
@@ -506,13 +530,13 @@ public class WordExctinction extends Activity  {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		rnd = new Random();
-		
+
 		mView = new WEView(this);
 		setContentView(mView);
 		mView.setOnTouchListener(mView);
@@ -520,50 +544,52 @@ public class WordExctinction extends Activity  {
 		//Calculate graphics level based on screen density
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		
+
 		mGraphicsLevel = 2;
 		switch(metrics.densityDpi){
 		case DisplayMetrics.DENSITY_HIGH:
 		default:
 			mGraphicsLevel = 2;
 			break;
-			
+
 		case DisplayMetrics.DENSITY_MEDIUM:
 			mGraphicsLevel = 1;
 			break;
-			
+
 		case DisplayMetrics.DENSITY_LOW:
 			mGraphicsLevel = 0;
 			break;
 		}
-			
-		
+
+
 		dbgs = new int[15];
 		gbgs = new int[15];
 		splashes = new int[34];
-		
+
 		bmP = new Paint();
 		bmP.setFilterBitmap(true);
-		
+
 		mActivity = this;
 	}
 
 	protected void onResume(){
-		
+
 		Log.e("GaD","Resuming");
 		inDraw = false;
 		loadWords();
 		loadBitmaps();
-		
+
 		super.onResume();
 		mView.setVisibility(View.VISIBLE);
 	}
-	
+
+
+
 	protected void onPause(){
 		//This stops onDraw from being called?
 		mView.setVisibility(View.INVISIBLE);
 		super.onPause();
-		
+
 		/*
 		 * TODO: This is almost certainly not the right way to
 		 * synchronize onPause with onDraw. Figure it out later.
@@ -580,13 +606,13 @@ public class WordExctinction extends Activity  {
 		}
 		//Free up some memory
 		wordSet = null;
-		
+
 		fl1TileImage = null;
 		fl2TileImage = null;
 		fl3TileImage = null;
-		
+
 		bg = null;
-		
+
 		greyButton = null;
 		activeButton = null;
 		checkedButton = null;
@@ -601,7 +627,7 @@ public class WordExctinction extends Activity  {
 		petal3 = null;
 		System.gc();
 		Log.e("GaD","Paused");
-		
+
 	}
 
 	//This is based on the SCRABBLE (TM) letter distribution. Scrabble has 100 tiles,
@@ -698,7 +724,7 @@ public class WordExctinction extends Activity  {
 
 					int ydir = getHeight()/2 - y;
 					int xdir = 0 - x;
-					
+
 					for(int i=0;i<numSteps;i++){
 						y = y + (ydir)/24;
 						x = x + (xdir)/24;
@@ -707,7 +733,7 @@ public class WordExctinction extends Activity  {
 							alpha = 0;
 						}
 					}
-					
+
 					p.setAlpha(alpha);
 
 					if(whichPlayer == 1){
@@ -727,9 +753,9 @@ public class WordExctinction extends Activity  {
 					 */
 
 					break;
-					
+
 				case 1:
-					
+
 					//First update
 					for(int i=0;i<numSteps;i++){
 						alpha = alpha - 10;
@@ -738,11 +764,11 @@ public class WordExctinction extends Activity  {
 							alpha = 0;
 						}
 					}
-					
+
 					//Then draw
 					p = new Paint();
 					p.setAntiAlias(true);
-					
+
 					if(whichPlayer == 0){
 						p.setColor(p1color);
 					} else {
@@ -760,13 +786,13 @@ public class WordExctinction extends Activity  {
 						c.restore();
 					}
 					break;
-					
+
 				case 2:
 					for(int i=0; i<numSteps; i++){
 						y += 7;
 						if(y >= getHeight()+sqSize) done = true;
 					}
-					
+
 					if(whichPlayer == 1){
 						c.save();
 						c.rotate(180,getWidth()/2,getHeight()/2);
@@ -820,9 +846,12 @@ public class WordExctinction extends Activity  {
 			p1BigMallets = 0;
 			p2BigMallets = 0;
 			gameover = false;
-
+			p1downX = -1;
+			p1downY = -1;
+			p2downX = -1;
+			p2downY = -1;
 			whichBG = 0;
-			
+
 			lastDrawTime = -1; //(new Date()).getTime();
 
 			deList = new ArrayList<DrawEffect>();
@@ -843,7 +872,7 @@ public class WordExctinction extends Activity  {
 			}else {
 				c.drawBitmap(fl3TileImage,null, new Rect(x,y-sqSize,x+sqSize,y), p);
 			}
-			
+
 			p.setTextSize(3*sqSize/4);
 			p.setTextAlign(Align.CENTER);
 			if(selected){
@@ -861,14 +890,14 @@ public class WordExctinction extends Activity  {
 			p.setStyle(Paint.Style.FILL);
 
 			p.setTextSize(3*sqSize/16);
-			
+
 			ShapeDrawable oDraw = new ShapeDrawable(new OvalShape());
 			oDraw.getPaint().setColor(textBorderColor);
 			oDraw.setBounds(x+(3*sqSize/4)-sqSize/8,y-5*sqSize/16-sqSize/8,x+(3*sqSize/4)+sqSize/8,y-5*sqSize/16+sqSize/8);
 			oDraw.draw(c);
 			p.setColor(textColor);
 			c.drawText(String.valueOf(pts),x+(3*sqSize/4),y-sqSize/4,p);
-			
+
 
 		}
 
@@ -910,7 +939,7 @@ public class WordExctinction extends Activity  {
 		// out of memory errors
 		protected void loadBG(int number){
 			boolean done = false;
-			
+
 			while(!done){
 				bg = null;
 				System.gc();
@@ -924,9 +953,31 @@ public class WordExctinction extends Activity  {
 			}
 		}
 
+
+		public void newGame(){
+			//openingdone = false;
+			mode = 0;
+			whichBG = 0;
+
+			p1word = "";
+			p2word = "";
+			p1score = 0;
+			p2score = 0;
+
+			p1selected = -1;
+			p2selected = -1;
+			p1selected2 = -1;
+			p2selected2 = -1;
+			pickNewLetters();
+
+			loadBG(gbgs[14]);	
+			this.invalidate();
+		}
+
+
 		protected void onDraw(Canvas c){
 			inDraw = true;
-			
+
 			sqSize = getWidth()/10; //This is a hack. Really should set this in the ctor,
 			// but getWidth does not seem to work there, and I'm lazy
 
@@ -957,10 +1008,10 @@ public class WordExctinction extends Activity  {
 			/*if(drawSteps > 0){
 				Log.e("GaD","Skipped " + (drawSteps-1) + " steps of animation");
 			}*/
-				
+
 			whichBG = whichBG + (drawSteps/2);
-			
-			
+
+
 			if(mode == 0){
 				if(whichBG > 14)
 					whichBG = 14;
@@ -988,7 +1039,7 @@ public class WordExctinction extends Activity  {
 			}
 
 			if(mode == 2){
-			
+
 				openingdone = true;
 				Paint p = new Paint();
 				p.setAntiAlias(true);
@@ -996,7 +1047,7 @@ public class WordExctinction extends Activity  {
 				p.setTextSize(sqSize/2);
 				p.setColor(textBorderColor);
 				c.drawText("Tap to play", 5*sqSize, getHeight()/2+sqSize/2, p);
-			
+
 				this.postInvalidateDelayed(MSPERFRAME/2);
 				inDraw = false;
 				return;
@@ -1097,7 +1148,7 @@ public class WordExctinction extends Activity  {
 				//If both players are done, total points and reset
 				whichBG = 0;
 				loadBG(dbgs[14]);
-				
+
 				p1done = false;
 				p2done = false;
 
@@ -1406,438 +1457,491 @@ public class WordExctinction extends Activity  {
 					ef.draw(c,drawSteps);
 				}
 			}
-		
+
 			this.postInvalidateDelayed(MSPERFRAME/2);
-			
+
 			inDraw = false;
 		}
 
+
+		public int p1downX;
+		public int p1downY;
+		public int p2downX;
+		public int p2downY;
+
 		public boolean onTouch(View arg0, MotionEvent arg1) {	
-			if(arg1.getAction() != MotionEvent.ACTION_DOWN) return false;
-			this.invalidate();
 
 			float x = arg1.getX();
 			float y = arg1.getY();
-
-			if(mode == 2){
-				openingdone = false;
-				mode = 0;
-				whichBG = 0;
-				loadBG(gbgs[14]);
-				return true;
-			}
-
-			if(gameover){
-				gameover = false;
-				mode = 2;
-				whichBG = 0;
-				loadBG(splashes[33]);
-				p1done = false;
-				p2done = false;
-
-				p1score = 0;
-				p2score = 0;	
-
-				p1word = "";
-				p2word = "";
-
-				p1selected = -1;
-				p2selected = -1;
-				p1selected2 = -1;
-				p2selected2 = -1;
-				pickNewLetters();
-				return true;
-			}
-
-			if(mode == 0){
-				if(x < sqSize*8 && y > getHeight() - sqSize){
-					//player 1 has touched one of her letters
-					p1done = false;
-
-					if(p1selected == (int)(x/sqSize) || p1letters[(int)(x/sqSize) ] == ' '){
-						p1selected = -1;
-					} else {
-						p1selected = (int)(x/sqSize);
+			boolean goodup = false;
+			
+			if(arg1.getAction() == MotionEvent.ACTION_UP && mode == 0){	
+				if(y < getHeight()/2){
+					//player 2's side
+					p2downX = (int)x;
+					p2downY = (int)y;
+					if(getWidth()-x < 8*sqSize && y > sqSize && p2selected != -1){
+						goodup = true;
 					}
-
-				} else if (getWidth()-x < sqSize*8 && y < sqSize) {
-					p2done = false;
-					//player 2 has touched one of her letters
-					x = getWidth()-x;
-
-					if(p2selected == (int)(x/sqSize) || p2letters[(int)(x/sqSize) ] == ' '){
-						p2selected = -1;
-					} else {
-						p2selected = (int)(x/sqSize);
-					}
-
-				} else if (x < sqSize*8 && y > getHeight()/2){
-					p1done = false;
-					//player 1 has touched her word row
-					if(p1selected == -1){
-						//player is trying to remove a character
-						int offset = (8*sqSize - p1word.length()*sqSize)/2;
-						int whichLetter = (int)((x-offset)/sqSize);
-						if(whichLetter >= 0 && whichLetter < p1word.length()){
-							int blankspot = 0;
-							while(p1letters[blankspot] != ' '){
-								blankspot++;
-							}
-							p1letters[blankspot] = p1word.charAt(whichLetter);
-							p1word = p1word.substring(0, whichLetter) + p1word.substring(whichLetter+1);
-						}
-					} else {
-						//player is trying to add a character
-						int offset = (8*sqSize - p1word.length()*sqSize)/2;
-						int whereInWord = (int)((x-offset + (sqSize/2))/sqSize);
-						if(whereInWord > p1word.length()){
-							whereInWord = p1word.length();
-						}
-						if(whereInWord < 0){
-							whereInWord = 0;
-						}
-						//make new word
-						p1word = p1word.substring(0, whereInWord) + p1letters[p1selected] + p1word.substring(whereInWord);
-
-						//clear out selected letter
-						p1letters[p1selected] = ' ';
-						p1selected = -1;
-
-					}
-				} else if (getWidth()-x < sqSize*8 && y < getHeight()/2){
-					p2done = false;
-					//player 2 has touched her word row
-					x = getWidth() - x;
-					if(p2selected == -1){
-						//player is trying to remove a character
-						int offset = (8*sqSize - p2word.length()*sqSize)/2;
-						int whichLetter = (int)((x-offset)/sqSize);
-						if(whichLetter >= 0 && whichLetter < p2word.length()){
-							int blankspot = 0;
-							while(p2letters[blankspot] != ' '){
-								blankspot++;
-							}
-							p2letters[blankspot] = p2word.charAt(whichLetter);
-							p2word = p2word.substring(0, whichLetter) + p2word.substring(whichLetter+1);
-						}
-					} else {
-						//player is trying to add a character
-						int offset = (8*sqSize - p2word.length()*sqSize)/2;
-						int whereInWord = (int)((x-offset + (sqSize/2))/sqSize);
-						if(whereInWord > p2word.length()){
-							whereInWord = p2word.length();
-						}
-						if(whereInWord < 0){
-							whereInWord = 0;
-						}
-						//make new word
-						p2word = p2word.substring(0, whereInWord) + p2letters[p2selected] + p2word.substring(whereInWord);
-
-						//clear out selected letter
-						p2letters[p2selected] = ' ';
-						p2selected = -1;
-
-					}
-				} else if(x > 8*sqSize &&  y > getHeight() - 2*sqSize){
-					//player 1 indicated they are done
-					p1selected = -1;
-					if(p1word.length() == 0 || wordSet.contains(p1word)){
-						p1done = !p1done;
-					}
-				}  else if(getWidth()-x > 8*sqSize &&  y < 2*sqSize){
-					//player 2 indicated they are done
-					p2selected = -1;
-					if(p2word.length() == 0 || wordSet.contains(p2word)){
-						p2done = !p2done;
+				} else {
+					p1downX = (int)x;
+					p1downY = (int)y;
+					if(x < 8*sqSize && y < getHeight()-sqSize && p1selected != -1){
+						goodup = true;
 					}
 				}
-			} else if(mode == 1){
-				if (x < sqSize*8 && y > getHeight() - 2*sqSize && y < getHeight()-sqSize){
-					//player 1 has touched her word row
-					if(p1selected == -1){
-						//player is trying to select 1 character
-						int offset = (8*sqSize - p1word.length()*sqSize)/2;
-						int whichLetter = (int)((x-offset)/sqSize);
-						if(whichLetter >= p1word.length()) whichLetter = p1word.length()-1;
-						if(whichLetter < 0) whichLetter=0;
+				
+			} 
 
-						p1selected = whichLetter;
-					} else {
-						//player is either switching selections, or picking a second letter
-						int offset = (8*sqSize - p1word.length()*sqSize)/2;
-						int whichLetter = (int)((x-offset)/sqSize);
-						if(whichLetter >= p1word.length()) whichLetter = p1word.length()-1;
-						if(whichLetter < 0) whichLetter=0;
+			if(arg1.getAction() == MotionEvent.ACTION_DOWN || goodup){
+				this.invalidate();
 
-						if(p1selected == whichLetter){
-							p1selected = p1selected2;
-							p1selected2 = -1;
-						} else if (p1selected2 == whichLetter){
-							p1selected2 = -1;
-						}else if(p1selected != -1 && p1selected2 == -1 && (p1selected-1 == whichLetter || p1selected+1 == whichLetter)){
-							p1selected2 = whichLetter;
+				if(y < getHeight()/2){
+					p2downX = (int)x;
+					p2downY = (int)y;
+				} else {
+					p1downX = (int)x;
+					p1downY = (int)y;
+				}
+
+				if(mode == 2){
+					openingdone = false;
+					mode = 0;
+					whichBG = 0;
+					loadBG(gbgs[14]);
+					return true;
+				}
+
+				if(gameover){
+					gameover = false;
+					mode = 2;
+					whichBG = 0;
+					loadBG(splashes[33]);
+					p1done = false;
+					p2done = false;
+
+					p1score = 0;
+					p2score = 0;	
+
+					p1word = "";
+					p2word = "";
+
+					p1selected = -1;
+					p2selected = -1;
+					p1selected2 = -1;
+					p2selected2 = -1;
+					pickNewLetters();
+					return true;
+				}
+
+				if(mode == 0){
+					if(x < sqSize*8 && y > getHeight() - sqSize){
+						//player 1 has touched one of her letters
+						p1done = false;
+
+						if(p1selected == (int)(x/sqSize) || p1letters[(int)(x/sqSize) ] == ' '){
+							p1selected = -1;
+						} else {
+							p1selected = (int)(x/sqSize);
+						}
+
+					} else if (getWidth()-x < sqSize*8 && y < sqSize) {
+						p2done = false;
+						//player 2 has touched one of her letters
+						x = getWidth()-x;
+
+						if(p2selected == (int)(x/sqSize) || p2letters[(int)(x/sqSize) ] == ' '){
+							p2selected = -1;
+						} else {
+							p2selected = (int)(x/sqSize);
+						}
+
+					} else if (x < sqSize*8 && y > getHeight()/2){
+						p1done = false;
+						//player 1 has touched her word row
+						if(p1selected == -1){
+							//player is trying to remove a character
+							int offset = (8*sqSize - p1word.length()*sqSize)/2;
+							int whichLetter = (int)((x-offset)/sqSize);
+							if(whichLetter >= 0 && whichLetter < p1word.length()){
+								int blankspot = 0;
+								while(p1letters[blankspot] != ' '){
+									blankspot++;
+								}
+								p1letters[blankspot] = p1word.charAt(whichLetter);
+								p1word = p1word.substring(0, whichLetter) + p1word.substring(whichLetter+1);
+							}
+						} else {
+							//player is trying to add a character
+							int offset = (8*sqSize - p1word.length()*sqSize)/2;
+							int whereInWord = (int)((x-offset + (sqSize/2))/sqSize);
+							if(whereInWord > p1word.length()){
+								whereInWord = p1word.length();
+							}
+							if(whereInWord < 0){
+								whereInWord = 0;
+							}
+							//make new word
+							p1word = p1word.substring(0, whereInWord) + p1letters[p1selected] + p1word.substring(whereInWord);
+
+							//clear out selected letter
+							p1letters[p1selected] = ' ';
+							p1selected = -1;
+
+						}
+					} else if (getWidth()-x < sqSize*8 && y < getHeight()/2){
+						p2done = false;
+						//player 2 has touched her word row
+						x = getWidth() - x;
+						if(p2selected == -1){
+							//player is trying to remove a character
+							int offset = (8*sqSize - p2word.length()*sqSize)/2;
+							int whichLetter = (int)((x-offset)/sqSize);
+							if(whichLetter >= 0 && whichLetter < p2word.length()){
+								int blankspot = 0;
+								while(p2letters[blankspot] != ' '){
+									blankspot++;
+								}
+								p2letters[blankspot] = p2word.charAt(whichLetter);
+								p2word = p2word.substring(0, whichLetter) + p2word.substring(whichLetter+1);
+							}
+						} else {
+							//player is trying to add a character
+							int offset = (8*sqSize - p2word.length()*sqSize)/2;
+							int whereInWord = (int)((x-offset + (sqSize/2))/sqSize);
+							if(whereInWord > p2word.length()){
+								whereInWord = p2word.length();
+							}
+							if(whereInWord < 0){
+								whereInWord = 0;
+							}
+							//make new word
+							p2word = p2word.substring(0, whereInWord) + p2letters[p2selected] + p2word.substring(whereInWord);
+
+							//clear out selected letter
+							p2letters[p2selected] = ' ';
+							p2selected = -1;
+
+						}
+					} else if(x > 8*sqSize &&  y > getHeight() - 2*sqSize){
+						//player 1 indicated they are done
+						p1selected = -1;
+						if(p1word.length() == 0 || wordSet.contains(p1word)){
+							p1done = !p1done;
+						}
+					}  else if(getWidth()-x > 8*sqSize &&  y < 2*sqSize){
+						//player 2 indicated they are done
+						p2selected = -1;
+						if(p2word.length() == 0 || wordSet.contains(p2word)){
+							p2done = !p2done;
 						}
 					}
-				} else if (getWidth() - x < sqSize*8 && y < 2*sqSize && y > sqSize){
-					//player 2 has touched her word row
-					if(p2selected == -1){
-						x = getWidth() - x;
-						//player is trying to select 1 character
-						int offset = (8*sqSize - p2word.length()*sqSize)/2;
-						int whichLetter = (int)((x-offset)/sqSize);
-						if(whichLetter >= p2word.length()) whichLetter = p2word.length()-1;
-						if(whichLetter < 0) whichLetter=0;
+				} else if(mode == 1){
+					if (x < sqSize*8 && y > getHeight() - 2*sqSize && y < getHeight()-sqSize){
+						//player 1 has touched her word row
+						if(p1selected == -1){
+							//player is trying to select 1 character
+							int offset = (8*sqSize - p1word.length()*sqSize)/2;
+							int whichLetter = (int)((x-offset)/sqSize);
+							if(whichLetter >= p1word.length()) whichLetter = p1word.length()-1;
+							if(whichLetter < 0) whichLetter=0;
 
-						p2selected = whichLetter;
-					} else {
-						//player is either switching selections, or picking a second letter
-						x = getWidth() - x;
-						int offset = (8*sqSize - p2word.length()*sqSize)/2;
-						int whichLetter = (int)((x-offset)/sqSize);
-						if(whichLetter >= p2word.length()) whichLetter = p2word.length()-1;
-						if(whichLetter < 0) whichLetter=0;
+							p1selected = whichLetter;
+						} else {
+							//player is either switching selections, or picking a second letter
+							int offset = (8*sqSize - p1word.length()*sqSize)/2;
+							int whichLetter = (int)((x-offset)/sqSize);
+							if(whichLetter >= p1word.length()) whichLetter = p1word.length()-1;
+							if(whichLetter < 0) whichLetter=0;
 
-						if(p2selected == whichLetter){
-							p2selected = p2selected2;
-							p2selected2 = -1;
-						} else if (p2selected2 == whichLetter){
-							p2selected2 = -1;
-						}else if(p2selected != -1 && p2selected2 == -1 && (p2selected-1 == whichLetter || p2selected+1 == whichLetter)){
-							p2selected2 = whichLetter;
+							if(p1selected == whichLetter){
+								p1selected = p1selected2;
+								p1selected2 = -1;
+							} else if (p1selected2 == whichLetter){
+								p1selected2 = -1;
+							}else if(p1selected != -1 && p1selected2 == -1 && (p1selected-1 == whichLetter || p1selected+1 == whichLetter)){
+								p1selected2 = whichLetter;
+							}
 						}
-					}
-				} else if(x < sqSize*8 && y > getHeight()-sqSize){
-					//player 1 is activating small mallet
-					if(p1selected != -1 && p1selected2 == -1 && (p1SmallMallets > 0 || p1BigMallets>0)){
-						//Only one letter selected
-						p1SmallMallets -= 1;
-						if(p1SmallMallets < 0) {
+					} else if (getWidth() - x < sqSize*8 && y < 2*sqSize && y > sqSize){
+						//player 2 has touched her word row
+						if(p2selected == -1){
+							x = getWidth() - x;
+							//player is trying to select 1 character
+							int offset = (8*sqSize - p2word.length()*sqSize)/2;
+							int whichLetter = (int)((x-offset)/sqSize);
+							if(whichLetter >= p2word.length()) whichLetter = p2word.length()-1;
+							if(whichLetter < 0) whichLetter=0;
+
+							p2selected = whichLetter;
+						} else {
+							//player is either switching selections, or picking a second letter
+							x = getWidth() - x;
+							int offset = (8*sqSize - p2word.length()*sqSize)/2;
+							int whichLetter = (int)((x-offset)/sqSize);
+							if(whichLetter >= p2word.length()) whichLetter = p2word.length()-1;
+							if(whichLetter < 0) whichLetter=0;
+
+							if(p2selected == whichLetter){
+								p2selected = p2selected2;
+								p2selected2 = -1;
+							} else if (p2selected2 == whichLetter){
+								p2selected2 = -1;
+							}else if(p2selected != -1 && p2selected2 == -1 && (p2selected-1 == whichLetter || p2selected+1 == whichLetter)){
+								p2selected2 = whichLetter;
+							}
+						}
+					} else if(x < sqSize*8 && y > getHeight()-sqSize){
+						//player 1 is activating small mallet
+						if(p1selected != -1 && p1selected2 == -1 && p1SmallMallets > 0){
+							//Only one letter selected
+							p1SmallMallets -= 1;
+							if(p1SmallMallets < 0) {
+								p1BigMallets -= 1;
+								p1SmallMallets = 0;
+							}
+							String t = p1word.substring(0,p1selected) + p1word.substring(p1selected+1);
+							if(t.length() == 0 || wordSet.contains(t)){
+								DrawEffect Se = new DrawEffect();
+								Se.amount = 2;
+								Se.type = 0;
+								Se.whichPlayer = 0;
+								float letOff = p1selected - p1word.length()/2.0f;
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
+
+								Se = new DrawEffect();
+								Se.type = 2;
+								Se.whichPlayer = 0;
+								Se.whichLetter = p1word.charAt(p1selected);
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
+
+								p1score += 2;
+								p1word = t;
+							}
+							if(t.length() == 0){
+								DrawEffect ExtinctE = new DrawEffect();
+								ExtinctE.whichPlayer = 0;
+								ExtinctE.x = 4*sqSize;
+								ExtinctE.y = sqSize;
+								ExtinctE.type = 1;
+								deList.add(ExtinctE);
+
+
+								p1score += 2*(p1len);
+
+								ExtinctE = new DrawEffect();
+								ExtinctE.whichPlayer = 0;
+								ExtinctE.x = 4*sqSize;
+								ExtinctE.y = getHeight()-sqSize;
+								ExtinctE.type = 0;
+								ExtinctE.amount = 2*p1len;
+								deList.add(ExtinctE);
+							}
+							p1selected = p1selected2 = -1;
+
+						} 
+					} else if(x > sqSize*8 && y > getHeight() - 2*sqSize){
+						//player 1 is activating big mallet
+						if(p1selected != -1 && p1selected2 != -1 && p1BigMallets > 0){
+							int small;
+							int big;
+							if(p1selected < p1selected2){
+								small = p1selected;
+								big = p1selected2;
+							} else {
+								small = p1selected2;
+								big = p1selected;
+							}
 							p1BigMallets -= 1;
-							p1SmallMallets = 0;
-						}
-						String t = p1word.substring(0,p1selected) + p1word.substring(p1selected+1);
-						if(t.length() == 0 || wordSet.contains(t)){
-							DrawEffect Se = new DrawEffect();
-							Se.amount = 2;
-							Se.type = 0;
-							Se.whichPlayer = 0;
-							float letOff = p1selected - p1word.length()/2.0f;
-							Se.x = (int) letOff*sqSize + 4*sqSize;
-							Se.y = (int) getHeight()-3*sqSize/2;
-							deList.add(Se);
-							
-							Se = new DrawEffect();
-							Se.type = 2;
-							Se.whichPlayer = 0;
-							Se.whichLetter = p1word.charAt(p1selected);
-							Se.x = (int) letOff*sqSize + 4*sqSize;
-							Se.y = (int) getHeight()-3*sqSize/2;
-							deList.add(Se);
-							
-							p1score += 2;
-							p1word = t;
-						}
-						if(t.length() == 0){
-							DrawEffect ExtinctE = new DrawEffect();
-							ExtinctE.whichPlayer = 0;
-							ExtinctE.x = 4*sqSize;
-							ExtinctE.y = sqSize;
-							ExtinctE.type = 1;
-							deList.add(ExtinctE);
-							
-							
-							p1score += 2*(p1len);
+							String t = p1word.substring(0,small) + p1word.substring(big+1);
+							if(t.length() == 0 || wordSet.contains(t)){
+								DrawEffect Se = new DrawEffect();
+								Se.amount = 4;
+								Se.type = 0;
+								Se.whichPlayer = 0;
+								float letOff = p1selected - p1word.length()/2.0f;
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
+
+								Se = new DrawEffect();
+								Se.type = 2;
+								Se.whichPlayer = 0;
+								Se.whichLetter = p1word.charAt(p1selected);
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
+
+								Se = new DrawEffect();
+								Se.type = 2;
+								Se.whichPlayer = 0;
+								Se.whichLetter = p1word.charAt(p1selected2);
+								letOff = p1selected2 - p1word.length()/2.0f;
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
 								
-							ExtinctE = new DrawEffect();
-							ExtinctE.whichPlayer = 0;
-							ExtinctE.x = 4*sqSize;
-							ExtinctE.y = getHeight()-sqSize;
-							ExtinctE.type = 0;
-							ExtinctE.amount = 2*p1len;
-							deList.add(ExtinctE);
-						}
-						p1selected = p1selected2 = -1;
+								p1score += 4;
+								p1word = t;
+							}
+							if(t.length() == 0){
+								DrawEffect ExtinctE = new DrawEffect();
+								ExtinctE.whichPlayer = 0;
+								ExtinctE.x = 4*sqSize;
+								ExtinctE.y = sqSize;
+								ExtinctE.type = 1;
+								deList.add(ExtinctE);
 
-					} 
-				} else if(x > sqSize*8 && y > getHeight() - 2*sqSize){
-					//player 1 is activating big mallet
-					if(p1selected != -1 && p1selected2 != -1 && p1BigMallets > 0){
-						int small;
-						int big;
-						if(p1selected < p1selected2){
-							small = p1selected;
-							big = p1selected2;
-						} else {
-							small = p1selected2;
-							big = p1selected;
-						}
-						p1BigMallets -= 1;
-						String t = p1word.substring(0,small) + p1word.substring(big+1);
-						if(t.length() == 0 || wordSet.contains(t)){
-							DrawEffect Se = new DrawEffect();
-							Se.amount = 4;
-							Se.type = 0;
-							Se.whichPlayer = 0;
-							float letOff = p1selected - p1word.length()/2.0f;
-							Se.x = (int) letOff*sqSize + 4*sqSize;
-							Se.y = (int) getHeight()-3*sqSize/2;
-							deList.add(Se);
-							
-							Se = new DrawEffect();
-							Se.type = 2;
-							Se.whichPlayer = 0;
-							Se.whichLetter = p1word.charAt(p1selected);
-							Se.x = (int) letOff*sqSize + 4*sqSize;
-							Se.y = (int) getHeight()-3*sqSize/2;
-							deList.add(Se);
-							
-							p1score += 4;
-							p1word = t;
-						}
-						if(t.length() == 0){
-							DrawEffect ExtinctE = new DrawEffect();
-							ExtinctE.whichPlayer = 0;
-							ExtinctE.x = 4*sqSize;
-							ExtinctE.y = sqSize;
-							ExtinctE.type = 1;
-							deList.add(ExtinctE);
-							
-							p1score += 2*(p1len);
-							
-							ExtinctE = new DrawEffect();
-							ExtinctE.whichPlayer = 0;
-							ExtinctE.x = 4*sqSize;
-							ExtinctE.y = getHeight()-sqSize;
-							ExtinctE.type = 0;
-							ExtinctE.amount = 2*p1len;
-							deList.add(ExtinctE);
-						}
-						p1selected = p1selected2 = -1;
+								p1score += 2*(p1len);
 
-					}
-				} else if(getWidth() - x < sqSize*8 && y < sqSize){
-					// player 2 is activating small mallet
-					if(p2selected != -1 && p2selected2 == -1 && (p2SmallMallets > 0 || p2BigMallets > 0)){
-						//Only one letter selected
-						p2SmallMallets -= 1;
-						if(p2SmallMallets < 0){
+								ExtinctE = new DrawEffect();
+								ExtinctE.whichPlayer = 0;
+								ExtinctE.x = 4*sqSize;
+								ExtinctE.y = getHeight()-sqSize;
+								ExtinctE.type = 0;
+								ExtinctE.amount = 2*p1len;
+								deList.add(ExtinctE);
+							}
+							p1selected = p1selected2 = -1;
+
+						}
+					} else if(getWidth() - x < sqSize*8 && y < sqSize){
+						// player 2 is activating small mallet
+						if(p2selected != -1 && p2selected2 == -1 && p2SmallMallets > 0 ){
+							//Only one letter selected
+							p2SmallMallets -= 1;
+							if(p2SmallMallets < 0){
+								p2BigMallets -= 1;
+								p2SmallMallets = 0;
+							}
+							String t = p2word.substring(0,p2selected) + p2word.substring(p2selected+1);
+							if(t.length() == 0 || wordSet.contains(t)){
+								DrawEffect Se = new DrawEffect();
+								Se.amount = 2;
+								Se.type = 0;
+								Se.whichPlayer = 1;
+								float letOff = p2selected - p2word.length()/2.0f;
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
+
+								Se = new DrawEffect();
+								Se.type = 2;
+								Se.whichPlayer = 1;
+								Se.whichLetter = p2word.charAt(p2selected);
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
+
+								p2score += 2;
+								p2word = t;
+							}
+							if(t.length() == 0){
+								DrawEffect ExtinctE = new DrawEffect();
+								ExtinctE.whichPlayer = 1;
+								ExtinctE.x = 4*sqSize;
+								ExtinctE.y = sqSize;
+								ExtinctE.type = 1;
+								deList.add(ExtinctE);
+
+								p2score += 2*(p2len);
+
+								ExtinctE = new DrawEffect();
+								ExtinctE.whichPlayer = 1;
+								ExtinctE.x = 4*sqSize;
+								ExtinctE.y = getHeight()-sqSize;
+								ExtinctE.type = 0;
+								ExtinctE.amount = 2*p2len;
+								deList.add(ExtinctE);
+							}
+							p2selected = p2selected2 = -1;
+
+						}
+					}else if(getWidth()-x > sqSize*8 && y < 2*sqSize){
+						// player 2 is activating big mallet
+						if(p2selected != -1 && p2selected2 != -1 && p2BigMallets > 0){
+							int small;
+							int big;
+							if(p2selected < p2selected2){
+								small = p2selected;
+								big = p2selected2;
+							} else {
+								small = p2selected2;
+								big = p2selected;
+							}
+
 							p2BigMallets -= 1;
-							p2SmallMallets = 0;
-						}
-						String t = p2word.substring(0,p2selected) + p2word.substring(p2selected+1);
-						if(t.length() == 0 || wordSet.contains(t)){
-							DrawEffect Se = new DrawEffect();
-							Se.amount = 2;
-							Se.type = 0;
-							Se.whichPlayer = 1;
-							float letOff = p2selected - p2word.length()/2.0f;
-							Se.x = (int) letOff*sqSize + 4*sqSize;
-							Se.y = (int) getHeight()-3*sqSize/2;
-							deList.add(Se);
-							
-							Se = new DrawEffect();
-							Se.type = 2;
-							Se.whichPlayer = 1;
-							Se.whichLetter = p2word.charAt(p2selected);
-							Se.x = (int) letOff*sqSize + 4*sqSize;
-							Se.y = (int) getHeight()-3*sqSize/2;
-							deList.add(Se);
-							
-							p2score += 2;
-							p2word = t;
-						}
-						if(t.length() == 0){
-							DrawEffect ExtinctE = new DrawEffect();
-							ExtinctE.whichPlayer = 1;
-							ExtinctE.x = 4*sqSize;
-							ExtinctE.y = sqSize;
-							ExtinctE.type = 1;
-							deList.add(ExtinctE);
-							
-							p2score += 2*(p2len);
-							
-							ExtinctE = new DrawEffect();
-							ExtinctE.whichPlayer = 1;
-							ExtinctE.x = 4*sqSize;
-							ExtinctE.y = getHeight()-sqSize;
-							ExtinctE.type = 0;
-							ExtinctE.amount = 2*p2len;
-							deList.add(ExtinctE);
-						}
-						p2selected = p2selected2 = -1;
+							String t = p2word.substring(0,small) + p2word.substring(big+1);
+							if(t.length() == 0 || wordSet.contains(t)){
+								DrawEffect Se = new DrawEffect();
+								Se.amount = 4;
+								Se.type = 0;
+								Se.whichPlayer = 1;
+								float letOff = p2selected - p2word.length()/2.0f;
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
 
-					}
-				}else if(getWidth()-x > sqSize*8 && y < 2*sqSize){
-					// player 2 is activating big mallet
-					if(p2selected != -1 && p2selected2 != -1 && p2BigMallets > 0){
-						int small;
-						int big;
-						if(p2selected < p2selected2){
-							small = p2selected;
-							big = p2selected2;
-						} else {
-							small = p2selected2;
-							big = p2selected;
-						}
+								Se = new DrawEffect();
+								Se.type = 2;
+								Se.whichPlayer = 1;
+								Se.whichLetter = p2word.charAt(p2selected);
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
+								
+								Se = new DrawEffect();
+								Se.type = 2;
+								Se.whichPlayer = 1;
+								Se.whichLetter = p2word.charAt(p2selected2);
+								letOff = p2selected2 - p2word.length()/2.0f;
+								Se.x = (int) letOff*sqSize + 4*sqSize;
+								Se.y = (int) getHeight()-3*sqSize/2;
+								deList.add(Se);
 
-						p2BigMallets -= 1;
-						String t = p2word.substring(0,small) + p2word.substring(big+1);
-						if(t.length() == 0 || wordSet.contains(t)){
-							DrawEffect Se = new DrawEffect();
-							Se.amount = 4;
-							Se.type = 0;
-							Se.whichPlayer = 1;
-							float letOff = p2selected - p2word.length()/2.0f;
-							Se.x = (int) letOff*sqSize + 4*sqSize;
-							Se.y = (int) getHeight()-3*sqSize/2;
-							deList.add(Se);
-							
-							Se = new DrawEffect();
-							Se.type = 2;
-							Se.whichPlayer = 1;
-							Se.whichLetter = p2word.charAt(p2selected);
-							Se.x = (int) letOff*sqSize + 4*sqSize;
-							Se.y = (int) getHeight()-3*sqSize/2;
-							deList.add(Se);
-							
-							p2score += 4;
-							p2word = t;
+								p2score += 4;
+								p2word = t;
+							}
+							p2selected = p2selected2 = -1;
+							if(t.length() == 0){
+								DrawEffect ExtinctE = new DrawEffect();
+								ExtinctE.whichPlayer = 1;
+								ExtinctE.x = 4*sqSize;
+								ExtinctE.y = sqSize;
+								ExtinctE.type = 1;
+								deList.add(ExtinctE);
+
+								p2score += 2*(p2len);
+
+								ExtinctE = new DrawEffect();
+								ExtinctE.whichPlayer = 1;
+								ExtinctE.x = 4*sqSize;
+								ExtinctE.y = getHeight()-sqSize;
+								ExtinctE.type = 0;
+								ExtinctE.amount = 2*p2len;
+								deList.add(ExtinctE);
+							}
 						}
-						p2selected = p2selected2 = -1;
-						if(t.length() == 0){
-							DrawEffect ExtinctE = new DrawEffect();
-							ExtinctE.whichPlayer = 1;
-							ExtinctE.x = 4*sqSize;
-							ExtinctE.y = sqSize;
-							ExtinctE.type = 1;
-							deList.add(ExtinctE);
-							
-							p2score += 2*(p2len);
-							
-							ExtinctE = new DrawEffect();
-							ExtinctE.whichPlayer = 1;
-							ExtinctE.x = 4*sqSize;
-							ExtinctE.y = getHeight()-sqSize;
-							ExtinctE.type = 0;
-							ExtinctE.amount = 2*p2len;
-							deList.add(ExtinctE);
-						}
-					}
-				} 
+					} 
+				}
+
+
 			}
-
-
-
 
 
 
 			return true;
 
+
 		}
+
+
+
+
+
 	}
-
-
-
-
-
 }

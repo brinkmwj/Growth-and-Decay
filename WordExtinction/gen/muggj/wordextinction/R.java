@@ -59,10 +59,17 @@ public final class R {
         public static final int splash0068_m=0x7f02002d;
         public static final int splash0068_s=0x7f02002e;
     }
+    public static final class id {
+        public static final int new_game=0x7f060000;
+    }
+    public static final class menu {
+        public static final int menu=0x7f050000;
+    }
     public static final class raw {
         public static final int wordlistoneperline=0x7f030000;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int new_game=0x7f040001;
     }
 }

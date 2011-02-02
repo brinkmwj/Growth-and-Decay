@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Growth and Decay</string>
+    <string name="new_game">Start new game</string>
 </resources>
