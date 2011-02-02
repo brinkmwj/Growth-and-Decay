@@ -19,8 +19,9 @@
  * 		DONE 2) Expand bounds where user can tap to place letters
  * 3) Add sound effects
  * 		DONE 4) Change effects colors
- * 5) Redesign interface for decay phase
- * 6) High scores screen?
+ * 		DONE 5) Redesign interface for decay phase
+ * 		NO - This makes no sense. I was sleepy when I wrote it.
+ * 			6) High scores screen?
  * 		DONE 7) Add bitmap filter to all drawBitmap calls
  * 		DONE 8) Create a unified drawTile method
  * 		NO - #5 will fix this 9) Detect when no possible moves left in decay phase
@@ -139,8 +140,8 @@ public class WordExctinction extends Activity  {
 	}
 
 	public void loadBitmaps(){
-		Log.e("GaD","loadBitmaps called at level: "+mGraphicsLevel);
-		if(mGraphicsLevel == 2){
+		Log.d("GaD","loadBitmaps called at level: "+mGraphicsLevel);
+		if(mGraphicsLevel == 3){
 			//First, try loading hi res images
 			try{
 				fl1TileImage = BitmapFactory.decodeResource(res, R.drawable.flower1_h);
@@ -162,120 +163,78 @@ public class WordExctinction extends Activity  {
 				petal2 = BitmapFactory.decodeResource(res, R.drawable.petal2_h);
 				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_h);
 
-				Log.e("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
+				Log.d("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
 
 
-				/*splashes[ 0] = R.drawable.splash0002_m;
-				splashes[ 1] = R.drawable.splash0004_m;
-				splashes[ 2] = R.drawable.splash0006_m;
-				splashes[3 ] = R.drawable.splash0008_m;
-				splashes[ 4] = R.drawable.splash0010_m;
-				splashes[5] = R.drawable.splash0012_m;
-				splashes[6] = R.drawable.splash0014_m;
-				splashes[7] = R.drawable.splash0016_m;
-				splashes[8] = R.drawable.splash0018_m;
-				splashes[9] = R.drawable.splash0020_m;
-				splashes[10] = R.drawable.splash0022_m;
-				splashes[11] = R.drawable.splash0024_m;
-				splashes[12] = R.drawable.splash0026_m;
-				splashes[13] = R.drawable.splash0028_m;
-				splashes[14] = R.drawable.splash0030_m;
-				splashes[15] = R.drawable.splash0032_m;
-				splashes[16] = R.drawable.splash0034_m;
-				splashes[17] = R.drawable.splash0036_m;
-				splashes[18] = R.drawable.splash0038_m;
-				splashes[19] = R.drawable.splash0040_m;
-				splashes[20] = R.drawable.splash0042_m;
-				splashes[21] = R.drawable.splash0044_m;
-				splashes[22] = R.drawable.splash0046_m;
-				splashes[23] = R.drawable.splash0048_m;
-				splashes[24] = R.drawable.splash0050_m;
-				splashes[25] = R.drawable.splash0052_m;
-				splashes[26] = R.drawable.splash0054_m;
-				splashes[27] = R.drawable.splash0056_m;
-				splashes[28] = R.drawable.splash0058_m;
-				splashes[29] = R.drawable.splash0060_m;
-				splashes[30] = R.drawable.splash0062_m;
-				splashes[31] = R.drawable.splash0064_m;
-				splashes[32] = R.drawable.splash0066_m;*/
 				splashes[33] = R.drawable.splash0068_m;
-
-				/*
-				gbgs[0] = R.drawable.bg0002_m;
-				gbgs[1] = R.drawable.bg0004_m;
-				gbgs[2] = R.drawable.bg0006_m;
-				gbgs[3] = R.drawable.bg0008_m;
-				gbgs[4] = R.drawable.bg0010_m;
-				gbgs[5] = R.drawable.bg0012_m;
-				gbgs[6] = R.drawable.bg0014_m;
-				gbgs[7] = R.drawable.bg0016_m;
-				gbgs[8] = R.drawable.bg0018_m;
-				gbgs[9] = R.drawable.bg0020_m;
-				gbgs[10] = R.drawable.bg0022_m;
-				gbgs[11] = R.drawable.bg0024_m;
-				gbgs[12] = R.drawable.bg0026_m;
-				gbgs[13] = R.drawable.bg0028_m;
-				gbgs[14] = R.drawable.bg0030_m;
-
-				dbgs[0] = R.drawable.bg0032_m;
-				dbgs[1] = R.drawable.bg0034_m;
-				dbgs[2] = R.drawable.bg0036_m;
-				dbgs[3] = R.drawable.bg0038_m;
-				dbgs[4] = R.drawable.bg0040_m;
-				dbgs[5] = R.drawable.bg0042_m;
-				dbgs[6] = R.drawable.bg0044_m;
-				dbgs[7] = R.drawable.bg0046_m;
-				dbgs[8] = R.drawable.bg0048_m;
-				dbgs[9] = R.drawable.bg0050_m;
-				dbgs[10] = R.drawable.bg0052_m;
-				dbgs[11] = R.drawable.bg0054_m;
-				dbgs[12] = R.drawable.bg0056_m;
-				dbgs[13] = R.drawable.bg0058_m;
-				dbgs[14] = R.drawable.bg0060_m;
-				 */
-
-				/*gbgs[0] = R.drawable.bg0002_h;
-				gbgs[1] = R.drawable.bg0004_h;
-				gbgs[2] = R.drawable.bg0006_h;
-				gbgs[3] = R.drawable.bg0008_h;
-				gbgs[4] = R.drawable.bg0010_h;
-				gbgs[5] = R.drawable.bg0012_h;
-				gbgs[6] = R.drawable.bg0014_h;
-				gbgs[7] = R.drawable.bg0016_h;
-				gbgs[8] = R.drawable.bg0018_h;
-				gbgs[9] = R.drawable.bg0020_h;
-				gbgs[10] = R.drawable.bg0022_h;
-				gbgs[11] = R.drawable.bg0024_h;
-				gbgs[12] = R.drawable.bg0026_h;
-				gbgs[13] = R.drawable.bg0028_h;*/
 				gbgs[14] = R.drawable.bg0030_h;
-
-				/*dbgs[0] = R.drawable.bg0032_h;
-				dbgs[1] = R.drawable.bg0034_h;
-				dbgs[2] = R.drawable.bg0036_h;
-				dbgs[3] = R.drawable.bg0038_h;
-				dbgs[4] = R.drawable.bg0040_h;
-				dbgs[5] = R.drawable.bg0042_h;
-				dbgs[6] = R.drawable.bg0044_h;
-				dbgs[7] = R.drawable.bg0046_h;
-				dbgs[8] = R.drawable.bg0048_h;
-				dbgs[9] = R.drawable.bg0050_h;
-				dbgs[10] = R.drawable.bg0052_h;
-				dbgs[11] = R.drawable.bg0054_h;
-				dbgs[12] = R.drawable.bg0056_h;
-				dbgs[13] = R.drawable.bg0058_h;*/
 				dbgs[14] = R.drawable.bg0060_h;
 
 
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
-				Log.e("GaD","Hi-res image load failed");
+				Log.d("GaD","Hi-res image load failed");
+				mGraphicsLevel = 2;
+			}
+		}
+
+		if(mGraphicsLevel == 2){
+			//hi-res icons, med-res bgs
+
+			fl1TileImage = null;
+			fl2TileImage = null;
+			fl3TileImage = null;
+
+			bg = null;
+
+			greyButton = null;
+			activeButton = null;
+			checkedButton = null;
+
+			shearsImage = null;
+			sickleImage = null;
+
+			logoImage = null;
+
+			petal1 = null;
+			petal2 = null;
+			petal3 = null;
+			System.gc();
+
+			try{
+				fl1TileImage = BitmapFactory.decodeResource(res, R.drawable.flower1_h);
+				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_h);
+				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_h);
+
+				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_m);
+
+				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_h);
+				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_h);
+				checkedButton = BitmapFactory.decodeResource(res, R.drawable.checkbutton_h);
+
+				shearsImage = BitmapFactory.decodeResource(res, R.drawable.gardenshears_h);
+				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_h);
+
+				logoImage = BitmapFactory.decodeResource(res, R.drawable.icon_h);
+
+				petal1 = BitmapFactory.decodeResource(res, R.drawable.petal1_h);
+				petal2 = BitmapFactory.decodeResource(res, R.drawable.petal2_h);
+				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_h);
+
+				Log.d("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
+
+				gbgs[14] = R.drawable.bg0030_m;
+				dbgs[14] = R.drawable.bg0060_m;
+				splashes[33] = R.drawable.splash0068_m;
+				//If it worked, set the ids for the other BG and Splash images
+			} catch (OutOfMemoryError e){
+				Log.d("GaD","Mid-res image load failed");
 				mGraphicsLevel = 1;
 			}
 		}
 
 		if(mGraphicsLevel == 1){
-			//If loading hi-res failed, try medium res
+			//mid-res icons, low-res bgs
 
 			fl1TileImage = null;
 			fl2TileImage = null;
@@ -302,14 +261,14 @@ public class WordExctinction extends Activity  {
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_m);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_m);
 
-				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_m);
+				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
 
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_m);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_m);
 				checkedButton = BitmapFactory.decodeResource(res, R.drawable.checkbutton_m);
 
 				shearsImage = BitmapFactory.decodeResource(res, R.drawable.gardenshears_m);
-				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_h);
+				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_m);
 
 				logoImage = BitmapFactory.decodeResource(res, R.drawable.icon_m);
 
@@ -317,85 +276,22 @@ public class WordExctinction extends Activity  {
 				petal2 = BitmapFactory.decodeResource(res, R.drawable.petal2_m);
 				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_m);
 
-				Log.e("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
+				Log.d("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
 
-
-
-				/*gbgs[0] = R.drawable.bg0002_m;
-				gbgs[1] = R.drawable.bg0004_m;
-				gbgs[2] = R.drawable.bg0006_m;
-				gbgs[3] = R.drawable.bg0008_m;
-				gbgs[4] = R.drawable.bg0010_m;
-				gbgs[5] = R.drawable.bg0012_m;
-				gbgs[6] = R.drawable.bg0014_m;
-				gbgs[7] = R.drawable.bg0016_m;
-				gbgs[8] = R.drawable.bg0018_m;
-				gbgs[9] = R.drawable.bg0020_m;
-				gbgs[10] = R.drawable.bg0022_m;
-				gbgs[11] = R.drawable.bg0024_m;
-				gbgs[12] = R.drawable.bg0026_m;
-				gbgs[13] = R.drawable.bg0028_m;*/
-				gbgs[14] = R.drawable.bg0030_m;
-
-				/*dbgs[0] = R.drawable.bg0032_m;
-				dbgs[1] = R.drawable.bg0034_m;
-				dbgs[2] = R.drawable.bg0036_m;
-				dbgs[3] = R.drawable.bg0038_m;
-				dbgs[4] = R.drawable.bg0040_m;
-				dbgs[5] = R.drawable.bg0042_m;
-				dbgs[6] = R.drawable.bg0044_m;
-				dbgs[7] = R.drawable.bg0046_m;
-				dbgs[8] = R.drawable.bg0048_m;
-				dbgs[9] = R.drawable.bg0050_m;
-				dbgs[10] = R.drawable.bg0052_m;
-				dbgs[11] = R.drawable.bg0054_m;
-				dbgs[12] = R.drawable.bg0056_m;
-				dbgs[13] = R.drawable.bg0058_m;*/
-				dbgs[14] = R.drawable.bg0060_m;
-
-				/*splashes[ 0] = R.drawable.splash0002_m;
-				splashes[ 1] = R.drawable.splash0004_m;
-				splashes[ 2] = R.drawable.splash0006_m;
-				splashes[3 ] = R.drawable.splash0008_m;
-				splashes[ 4] = R.drawable.splash0010_m;
-				splashes[5] = R.drawable.splash0012_m;
-				splashes[6] = R.drawable.splash0014_m;
-				splashes[7] = R.drawable.splash0016_m;
-				splashes[8] = R.drawable.splash0018_m;
-				splashes[9] = R.drawable.splash0020_m;
-				splashes[10] = R.drawable.splash0022_m;
-				splashes[11] = R.drawable.splash0024_m;
-				splashes[12] = R.drawable.splash0026_m;
-				splashes[13] = R.drawable.splash0028_m;
-				splashes[14] = R.drawable.splash0030_m;
-				splashes[15] = R.drawable.splash0032_m;
-				splashes[16] = R.drawable.splash0034_m;
-				splashes[17] = R.drawable.splash0036_m;
-				splashes[18] = R.drawable.splash0038_m;
-				splashes[19] = R.drawable.splash0040_m;
-				splashes[20] = R.drawable.splash0042_m;
-				splashes[21] = R.drawable.splash0044_m;
-				splashes[22] = R.drawable.splash0046_m;
-				splashes[23] = R.drawable.splash0048_m;
-				splashes[24] = R.drawable.splash0050_m;
-				splashes[25] = R.drawable.splash0052_m;
-				splashes[26] = R.drawable.splash0054_m;
-				splashes[27] = R.drawable.splash0056_m;
-				splashes[28] = R.drawable.splash0058_m;
-				splashes[29] = R.drawable.splash0060_m;
-				splashes[30] = R.drawable.splash0062_m;
-				splashes[31] = R.drawable.splash0064_m;
-				splashes[32] = R.drawable.splash0066_m;*/
-				splashes[33] = R.drawable.splash0068_m;
+				gbgs[14] = R.drawable.bg0030_s;
+				dbgs[14] = R.drawable.bg0060_s;
+				splashes[33] = R.drawable.splash0068_s;
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
-				Log.e("GaD","Mid-res image load failed");
+				//TODO: Give the user a meaningful error message
+				Log.d("GaD","Mid-res image load failed");
 				mGraphicsLevel = 0;
 			}
 		}
 
+		
 		if(mGraphicsLevel == 0){
-			//If loading medium-res failed, try low-res
+			//low-res everything
 
 			fl1TileImage = null;
 			fl2TileImage = null;
@@ -429,7 +325,7 @@ public class WordExctinction extends Activity  {
 				checkedButton = BitmapFactory.decodeResource(res, R.drawable.checkbutton_s);
 
 				shearsImage = BitmapFactory.decodeResource(res, R.drawable.gardenshears_s);
-				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_m);
+				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_s);
 
 				logoImage = BitmapFactory.decodeResource(res, R.drawable.icon_s);
 
@@ -437,77 +333,15 @@ public class WordExctinction extends Activity  {
 				petal2 = BitmapFactory.decodeResource(res, R.drawable.petal2_s);
 				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_s);
 
-				Log.e("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
-				/*gbgs[0] = R.drawable.bg0002_s;
-				gbgs[1] = R.drawable.bg0004_s;
-				gbgs[2] = R.drawable.bg0006_s;
-				gbgs[3] = R.drawable.bg0008_s;
-				gbgs[4] = R.drawable.bg0010_s;
-				gbgs[5] = R.drawable.bg0012_s;
-				gbgs[6] = R.drawable.bg0014_s;
-				gbgs[7] = R.drawable.bg0016_s;
-				gbgs[8] = R.drawable.bg0018_s;
-				gbgs[9] = R.drawable.bg0020_s;
-				gbgs[10] = R.drawable.bg0022_s;
-				gbgs[11] = R.drawable.bg0024_s;
-				gbgs[12] = R.drawable.bg0026_s;
-				gbgs[13] = R.drawable.bg0028_s;*/
+				Log.d("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
+
 				gbgs[14] = R.drawable.bg0030_s;
-
-				/*dbgs[0] = R.drawable.bg0032_s;
-				dbgs[1] = R.drawable.bg0034_s;
-				dbgs[2] = R.drawable.bg0036_s;
-				dbgs[3] = R.drawable.bg0038_s;
-				dbgs[4] = R.drawable.bg0040_s;
-				dbgs[5] = R.drawable.bg0042_s;
-				dbgs[6] = R.drawable.bg0044_s;
-				dbgs[7] = R.drawable.bg0046_s;
-				dbgs[8] = R.drawable.bg0048_s;
-				dbgs[9] = R.drawable.bg0050_s;
-				dbgs[10] = R.drawable.bg0052_s;
-				dbgs[11] = R.drawable.bg0054_s;
-				dbgs[12] = R.drawable.bg0056_s;
-				dbgs[13] = R.drawable.bg0058_s;*/
 				dbgs[14] = R.drawable.bg0060_s;
-
-				/*splashes[ 0] = R.drawable.splash0002_s;
-				splashes[ 1] = R.drawable.splash0004_s;
-				splashes[ 2] = R.drawable.splash0006_s;
-				splashes[3 ] = R.drawable.splash0008_s;
-				splashes[ 4] = R.drawable.splash0010_s;
-				splashes[5] = R.drawable.splash0012_s;
-				splashes[6] = R.drawable.splash0014_s;
-				splashes[7] = R.drawable.splash0016_s;
-				splashes[8] = R.drawable.splash0018_s;
-				splashes[9] = R.drawable.splash0020_s;
-				splashes[10] = R.drawable.splash0022_s;
-				splashes[11] = R.drawable.splash0024_s;
-				splashes[12] = R.drawable.splash0026_s;
-				splashes[13] = R.drawable.splash0028_s;
-				splashes[14] = R.drawable.splash0030_s;
-				splashes[15] = R.drawable.splash0032_s;
-				splashes[16] = R.drawable.splash0034_s;
-				splashes[17] = R.drawable.splash0036_s;
-				splashes[18] = R.drawable.splash0038_s;
-				splashes[19] = R.drawable.splash0040_s;
-				splashes[20] = R.drawable.splash0042_s;
-				splashes[21] = R.drawable.splash0044_s;
-				splashes[22] = R.drawable.splash0046_s;
-				splashes[23] = R.drawable.splash0048_s;
-				splashes[24] = R.drawable.splash0050_s;
-				splashes[25] = R.drawable.splash0052_s;
-				splashes[26] = R.drawable.splash0054_s;
-				splashes[27] = R.drawable.splash0056_s;
-				splashes[28] = R.drawable.splash0058_s;
-				splashes[29] = R.drawable.splash0060_s;
-				splashes[30] = R.drawable.splash0062_s;
-				splashes[31] = R.drawable.splash0064_s;
-				splashes[32] = R.drawable.splash0066_s;*/
 				splashes[33] = R.drawable.splash0068_s;
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
 				//TODO: Give the user a meaningful error message
-				Log.e("GaD","Low-res image load failed");
+				Log.e("GaD","Image load failed: You do not have enough memory for 320x240 graphics.");
 			}
 		}
 
@@ -545,19 +379,19 @@ public class WordExctinction extends Activity  {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-		mGraphicsLevel = 2;
+		mGraphicsLevel = 3;
 		switch(metrics.densityDpi){
 		case DisplayMetrics.DENSITY_HIGH:
 		default:
-			mGraphicsLevel = 2;
+			mGraphicsLevel = 3;
 			break;
 
 		case DisplayMetrics.DENSITY_MEDIUM:
-			mGraphicsLevel = 1;
+			mGraphicsLevel = 2;
 			break;
 
 		case DisplayMetrics.DENSITY_LOW:
-			mGraphicsLevel = 0;
+			mGraphicsLevel = 1;
 			break;
 		}
 
@@ -574,7 +408,7 @@ public class WordExctinction extends Activity  {
 
 	protected void onResume(){
 
-		Log.e("GaD","Resuming");
+		Log.d("GaD","Resuming");
 		inDraw = false;
 		loadWords();
 		loadBitmaps();
@@ -626,7 +460,7 @@ public class WordExctinction extends Activity  {
 		petal2 = null;
 		petal3 = null;
 		System.gc();
-		Log.e("GaD","Paused");
+		Log.d("GaD","Paused");
 
 	}
 
@@ -680,7 +514,9 @@ public class WordExctinction extends Activity  {
 		public boolean gameover;
 		public Timer timer;
 		public boolean openingdone;
-
+		public int p1DecayDone;
+		public int p2DecayDone;
+		
 		public int whichBG;
 		public long lastDrawTime;
 
@@ -1151,6 +987,8 @@ public class WordExctinction extends Activity  {
 
 				p1done = false;
 				p2done = false;
+				p1DecayDone = 0;
+				p2DecayDone = 0;
 
 				p1score += scoreWord(p1word);
 				DrawEffect p1SE = new DrawEffect();
@@ -1190,13 +1028,15 @@ public class WordExctinction extends Activity  {
 				p2SmallMallets = p2word.length()-2*p2BigMallets;
 
 
-			} else if(mode == 1 && p1done && p2done){
+			} else if(mode == 1 && (p1done || p1DecayDone ==2) && 
+					(p2done || p2DecayDone == 2)){
 				mode = 0;
 				whichBG = 0;
 				loadBG(gbgs[14]);
 				p1done = false;
 				p2done = false;
-
+				p1DecayDone = 0;
+				p2DecayDone = 0;
 				//Score leftover letters
 				/*if(p1word.length() == 0)
 					p1score += 2*(p1len);*/ //p1 gets bonus only if clearing
@@ -1378,24 +1218,62 @@ public class WordExctinction extends Activity  {
 					p.setColor(textBorderColor);
 					p.setTextAlign(Align.CENTER);
 					p.setTextSize(sqSize/3);
-					p.setAlpha(192);
-					c.drawText("Select a letter, then tap here to activate shears", 4*sqSize, getHeight()-sqSize/2, p);
+					if(p1selected != -1 && p1selected2 == -1){
+						p.setAlpha(255);
+					} else {
+						p.setAlpha(160);
+					}
+					c.drawText("Select a letter, then tap", 3*sqSize, getHeight()-2*sqSize/3, p);
+					c.drawText("here to activate shears", 3*sqSize, getHeight()-sqSize/3, p);
 					p.setAlpha(255);
 				} 
 
+				p.setAlpha(255);
+				if(p1BigMallets > 0 && p1SmallMallets > 0){
+					mDrawable.setBounds(6*sqSize,getHeight()-7*sqSize/8,6*sqSize+1,getHeight()-sqSize/8);
+					mDrawable.draw(c);
+				}
 
 				if(p1BigMallets > 0){
-					c.drawBitmap(sickleImage, null, new Rect(8*sqSize,getHeight()-2*sqSize,10*sqSize,getHeight()),bmP);
+					c.drawBitmap(sickleImage, null, new Rect((int)(6.5*sqSize),getHeight()-sqSize,(int)(7.5*sqSize),getHeight()),bmP);
 					p.setColor(textBorderColor);
-					p.setAlpha(192);
+					if(p1selected != -1 && p1selected2 != -1){
+						p.setAlpha(255);
+					} else {
+						p.setAlpha(160);
+					}
 					p.setTextAlign(Align.CENTER);
 					p.setTextSize(sqSize/3);
-					c.drawText("Select two" , 9*sqSize, getHeight()-4*sqSize/3, p);
-					c.drawText("neighboring",9*sqSize, getHeight()-3*sqSize/3, p);
-					c.drawText("letters, then",9*sqSize, getHeight()-2*sqSize/3, p);
-					c.drawText("tap here",9*sqSize, getHeight()-sqSize/3, p);
+					c.drawText("Select two" , 7*sqSize, getHeight()-5*sqSize/6, p);	
+					c.drawText("neighbors,",7*sqSize, getHeight()-3*sqSize/6, p);
+					c.drawText("then tap",7*sqSize, getHeight()-1*sqSize/6, p);
 					p.setAlpha(255);
 				}
+				
+				//End of turn button
+				mDrawable.getPaint().setStyle(android.graphics.Paint.Style.FILL_AND_STROKE);
+				if(p1DecayDone >= 1){
+					c.drawBitmap(checkedButton,null,new Rect((int)(8.5*sqSize),(int)(getHeight()-1.5*sqSize),(int)(9.5*sqSize),(int)(getHeight()-0.5*sqSize)),bmP);
+				} else {
+					c.drawBitmap(activeButton,null,new Rect((int)(8.5*sqSize),(int)(getHeight()-1.5*sqSize),(int)(9.5*sqSize),(int)(getHeight()-0.5*sqSize)),bmP);
+				}  	
+				p.setColor(textBorderColor);
+				p.setTextSize(sqSize/3);
+				p.setTextAlign(Align.CENTER);
+				if(p1DecayDone == 0){
+					p.setAlpha(192);
+					c.drawText("Tap here", 9*sqSize, getHeight()-sqSize-sqSize, p);
+					c.drawText("if done", 9*sqSize, getHeight()-sqSize-2*sqSize/3, p);
+				} else if(p1DecayDone == 1){
+					p.setAlpha(192);
+					c.drawText("Tap again", 9*sqSize, getHeight()-sqSize-sqSize, p);
+					c.drawText("to confirm", 9*sqSize, getHeight()-sqSize-2*sqSize/3, p);			
+				} else {
+					p.setAlpha(192);
+					//c.drawText("C", 9*sqSize, getHeight()-sqSize-sqSize, p);
+					c.drawText("Confirmed", 9*sqSize, getHeight()-sqSize-2*sqSize/3, p);			
+				}
+				p.setAlpha(255);
 
 				c.save();
 				c.rotate(180,getWidth()/2,getHeight()/2);
@@ -1422,24 +1300,62 @@ public class WordExctinction extends Activity  {
 					p.setColor(textBorderColor);
 					p.setTextAlign(Align.CENTER);
 					p.setTextSize(sqSize/3);
-					p.setAlpha(192);
-					c.drawText("Select a letter, then tap here to activate shears", 4*sqSize, getHeight()-sqSize/2, p);
+					if(p2selected != -1 && p2selected2 == -1){
+						p.setAlpha(255);
+					} else {
+						p.setAlpha(160);
+					}
+					c.drawText("Select a letter, then tap", 3*sqSize, getHeight()-2*sqSize/3, p);
+					c.drawText("here to activate shears", 3*sqSize, getHeight()-sqSize/3, p);
 					p.setAlpha(255);
+				}
+				
+				p.setAlpha(255);
+				if(p2BigMallets > 0 && p2SmallMallets > 0){
+					mDrawable.setBounds(6*sqSize,getHeight()-7*sqSize/8,6*sqSize+1,getHeight()-sqSize/8);
+					mDrawable.draw(c);
 				}
 
 				if(p2BigMallets > 0){
-					c.drawBitmap(sickleImage, null, new Rect(8*sqSize,getHeight()-2*sqSize,10*sqSize,getHeight()),bmP);
+					c.drawBitmap(sickleImage, null, new Rect((int)(6.5*sqSize),getHeight()-sqSize,(int)(7.5*sqSize),getHeight()),bmP);
 					p.setColor(textBorderColor);
-					p.setAlpha(192);
+					if(p2selected != -1 && p2selected2 != -1){
+						p.setAlpha(255);
+					} else {
+						p.setAlpha(160);
+					}
 					p.setTextAlign(Align.CENTER);
 					p.setTextSize(sqSize/3);
-					c.drawText("Select two" , 9*sqSize, getHeight()-4*sqSize/3, p);
-					c.drawText("neighboring",9*sqSize, getHeight()-3*sqSize/3, p);
-					c.drawText("letters, then",9*sqSize, getHeight()-2*sqSize/3, p);
-					c.drawText("tap here",9*sqSize, getHeight()-sqSize/3, p);
+					c.drawText("Select two" , 7*sqSize, getHeight()-5*sqSize/6, p);	
+					c.drawText("neighbors,",7*sqSize, getHeight()-3*sqSize/6, p);
+					c.drawText("then tap",7*sqSize, getHeight()-1*sqSize/6, p);
 					p.setAlpha(255);
 				}
 
+				//End of turn button
+				mDrawable.getPaint().setStyle(android.graphics.Paint.Style.FILL_AND_STROKE);
+				if(p2DecayDone >= 1){
+					c.drawBitmap(checkedButton,null,new Rect((int)(8.5*sqSize),(int)(getHeight()-1.5*sqSize),(int)(9.5*sqSize),(int)(getHeight()-0.5*sqSize)),bmP);
+				} else {
+					c.drawBitmap(activeButton,null,new Rect((int)(8.5*sqSize),(int)(getHeight()-1.5*sqSize),(int)(9.5*sqSize),(int)(getHeight()-0.5*sqSize)),bmP);
+				}  	
+				p.setColor(textBorderColor);
+				p.setTextSize(sqSize/3);
+				p.setTextAlign(Align.CENTER);
+				if(p2DecayDone == 0){
+					p.setAlpha(192);
+					c.drawText("Tap here", 9*sqSize, getHeight()-sqSize-sqSize, p);
+					c.drawText("if done", 9*sqSize, getHeight()-sqSize-2*sqSize/3, p);
+				} else if(p2DecayDone == 1){
+					p.setAlpha(192);
+					c.drawText("Tap again", 9*sqSize, getHeight()-sqSize-sqSize, p);
+					c.drawText("to confirm", 9*sqSize, getHeight()-sqSize-2*sqSize/3, p);			
+				} else {
+					p.setAlpha(192);
+					//c.drawText("C", 9*sqSize, getHeight()-sqSize-sqSize, p);
+					c.drawText("Confirmed", 9*sqSize, getHeight()-sqSize-2*sqSize/3, p);			
+				}
+				p.setAlpha(255);
 				c.restore();
 
 			}
@@ -1639,6 +1555,7 @@ public class WordExctinction extends Activity  {
 				} else if(mode == 1){
 					if (x < sqSize*8 && y > getHeight() - 2*sqSize && y < getHeight()-sqSize){
 						//player 1 has touched her word row
+						p1DecayDone = 0;
 						if(p1selected == -1){
 							//player is trying to select 1 character
 							int offset = (8*sqSize - p1word.length()*sqSize)/2;
@@ -1665,6 +1582,7 @@ public class WordExctinction extends Activity  {
 						}
 					} else if (getWidth() - x < sqSize*8 && y < 2*sqSize && y > sqSize){
 						//player 2 has touched her word row
+						p2DecayDone = 0;
 						if(p2selected == -1){
 							x = getWidth() - x;
 							//player is trying to select 1 character
@@ -1691,7 +1609,8 @@ public class WordExctinction extends Activity  {
 								p2selected2 = whichLetter;
 							}
 						}
-					} else if(x < sqSize*8 && y > getHeight()-sqSize){
+					} else if(x < sqSize*6 && y > getHeight()-sqSize){
+						p1DecayDone = 0;
 						//player 1 is activating small mallet
 						if(p1selected != -1 && p1selected2 == -1 && p1SmallMallets > 0){
 							//Only one letter selected
@@ -1744,8 +1663,9 @@ public class WordExctinction extends Activity  {
 							p1selected = p1selected2 = -1;
 
 						} 
-					} else if(x > sqSize*8 && y > getHeight() - 2*sqSize){
+					} else if(x > sqSize*6 && x < sqSize*8 && y > getHeight() - sqSize){
 						//player 1 is activating big mallet
+						p1DecayDone = 0;
 						if(p1selected != -1 && p1selected2 != -1 && p1BigMallets > 0){
 							int small;
 							int big;
@@ -1809,7 +1729,8 @@ public class WordExctinction extends Activity  {
 							p1selected = p1selected2 = -1;
 
 						}
-					} else if(getWidth() - x < sqSize*8 && y < sqSize){
+					} else if(getWidth() - x < sqSize*6 && y < sqSize){
+						p2DecayDone = 0;
 						// player 2 is activating small mallet
 						if(p2selected != -1 && p2selected2 == -1 && p2SmallMallets > 0 ){
 							//Only one letter selected
@@ -1861,8 +1782,9 @@ public class WordExctinction extends Activity  {
 							p2selected = p2selected2 = -1;
 
 						}
-					}else if(getWidth()-x > sqSize*8 && y < 2*sqSize){
+					}else if(getWidth()-x > sqSize*6 && getWidth()-x < sqSize*8 && y < sqSize){
 						// player 2 is activating big mallet
+						p2DecayDone = 0;
 						if(p2selected != -1 && p2selected2 != -1 && p2BigMallets > 0){
 							int small;
 							int big;
@@ -1926,7 +1848,21 @@ public class WordExctinction extends Activity  {
 								deList.add(ExtinctE);
 							}
 						}
-					} 
+					} else if(x > sqSize*8 && y > getHeight() - 2*sqSize){
+						//p1 done button during decay phase
+						if(p1DecayDone == 0){
+							p1DecayDone = 1;
+						} else if(p1DecayDone == 1) {
+							p1DecayDone = 2;
+						}
+					} else if(getWidth()-x > sqSize*8 &&  y < 2*sqSize){
+						//p2 done button during decay phase
+						if(p2DecayDone == 0){
+							p2DecayDone = 1;
+						} else if(p2DecayDone == 1) {
+							p2DecayDone = 2;
+						}
+					}
 				}
 
 
