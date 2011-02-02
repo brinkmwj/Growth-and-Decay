@@ -16,7 +16,7 @@
  * 
  * TODO LIST
  * 1) Add menu, "new game" option
- * 2) Expand bounds where user can tap to place letters
+ * 		DONE 2) Expand bounds where user can tap to place letters
  * 3) Add sound effects
  * 		DONE 4) Change effects colors
  * 5) Redesign interface for decay phase
@@ -106,6 +106,13 @@ public class WordExctinction extends Activity  {
 	int mGraphicsLevel;
 	
 	Paint bmP;
+
+	
+	//this is only needed for taking screenshots
+	/*public void onBackPressed() {
+
+	   return;
+	}*/
 	
 	public void loadBitmaps(){
 		Log.e("GaD","loadBitmaps called at level: "+mGraphicsLevel);
@@ -116,7 +123,7 @@ public class WordExctinction extends Activity  {
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_h);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_h);
 				
-				bg = BitmapFactory.decodeResource(res, R.drawable.bg0002_h);//This is to test memory availability
+				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_h);//This is to test memory availability
 				
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_h);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_h);
@@ -134,7 +141,7 @@ public class WordExctinction extends Activity  {
 				Log.e("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
 				
 				
-				splashes[ 0] = R.drawable.splash0002_m;
+				/*splashes[ 0] = R.drawable.splash0002_m;
 				splashes[ 1] = R.drawable.splash0004_m;
 				splashes[ 2] = R.drawable.splash0006_m;
 				splashes[3 ] = R.drawable.splash0008_m;
@@ -166,7 +173,7 @@ public class WordExctinction extends Activity  {
 				splashes[29] = R.drawable.splash0060_m;
 				splashes[30] = R.drawable.splash0062_m;
 				splashes[31] = R.drawable.splash0064_m;
-				splashes[32] = R.drawable.splash0066_m;
+				splashes[32] = R.drawable.splash0066_m;*/
 				splashes[33] = R.drawable.splash0068_m;
 				
 				/*
@@ -203,7 +210,7 @@ public class WordExctinction extends Activity  {
 				dbgs[14] = R.drawable.bg0060_m;
 				*/
 				
-				gbgs[0] = R.drawable.bg0002_h;
+				/*gbgs[0] = R.drawable.bg0002_h;
 				gbgs[1] = R.drawable.bg0004_h;
 				gbgs[2] = R.drawable.bg0006_h;
 				gbgs[3] = R.drawable.bg0008_h;
@@ -216,10 +223,10 @@ public class WordExctinction extends Activity  {
 				gbgs[10] = R.drawable.bg0022_h;
 				gbgs[11] = R.drawable.bg0024_h;
 				gbgs[12] = R.drawable.bg0026_h;
-				gbgs[13] = R.drawable.bg0028_h;
+				gbgs[13] = R.drawable.bg0028_h;*/
 				gbgs[14] = R.drawable.bg0030_h;
 				
-				dbgs[0] = R.drawable.bg0032_h;
+				/*dbgs[0] = R.drawable.bg0032_h;
 				dbgs[1] = R.drawable.bg0034_h;
 				dbgs[2] = R.drawable.bg0036_h;
 				dbgs[3] = R.drawable.bg0038_h;
@@ -232,7 +239,7 @@ public class WordExctinction extends Activity  {
 				dbgs[10] = R.drawable.bg0052_h;
 				dbgs[11] = R.drawable.bg0054_h;
 				dbgs[12] = R.drawable.bg0056_h;
-				dbgs[13] = R.drawable.bg0058_h;
+				dbgs[13] = R.drawable.bg0058_h;*/
 				dbgs[14] = R.drawable.bg0060_h;
 				
 				
@@ -271,7 +278,7 @@ public class WordExctinction extends Activity  {
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_m);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_m);
 				
-				bg = BitmapFactory.decodeResource(res, R.drawable.bg0002_m);
+				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_m);
 				
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_m);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_m);
@@ -290,7 +297,7 @@ public class WordExctinction extends Activity  {
 				
 				
 				
-				gbgs[0] = R.drawable.bg0002_m;
+				/*gbgs[0] = R.drawable.bg0002_m;
 				gbgs[1] = R.drawable.bg0004_m;
 				gbgs[2] = R.drawable.bg0006_m;
 				gbgs[3] = R.drawable.bg0008_m;
@@ -303,10 +310,10 @@ public class WordExctinction extends Activity  {
 				gbgs[10] = R.drawable.bg0022_m;
 				gbgs[11] = R.drawable.bg0024_m;
 				gbgs[12] = R.drawable.bg0026_m;
-				gbgs[13] = R.drawable.bg0028_m;
+				gbgs[13] = R.drawable.bg0028_m;*/
 				gbgs[14] = R.drawable.bg0030_m;
 				
-				dbgs[0] = R.drawable.bg0032_m;
+				/*dbgs[0] = R.drawable.bg0032_m;
 				dbgs[1] = R.drawable.bg0034_m;
 				dbgs[2] = R.drawable.bg0036_m;
 				dbgs[3] = R.drawable.bg0038_m;
@@ -319,10 +326,10 @@ public class WordExctinction extends Activity  {
 				dbgs[10] = R.drawable.bg0052_m;
 				dbgs[11] = R.drawable.bg0054_m;
 				dbgs[12] = R.drawable.bg0056_m;
-				dbgs[13] = R.drawable.bg0058_m;
+				dbgs[13] = R.drawable.bg0058_m;*/
 				dbgs[14] = R.drawable.bg0060_m;
 				
-				splashes[ 0] = R.drawable.splash0002_m;
+				/*splashes[ 0] = R.drawable.splash0002_m;
 				splashes[ 1] = R.drawable.splash0004_m;
 				splashes[ 2] = R.drawable.splash0006_m;
 				splashes[3 ] = R.drawable.splash0008_m;
@@ -354,7 +361,7 @@ public class WordExctinction extends Activity  {
 				splashes[29] = R.drawable.splash0060_m;
 				splashes[30] = R.drawable.splash0062_m;
 				splashes[31] = R.drawable.splash0064_m;
-				splashes[32] = R.drawable.splash0066_m;
+				splashes[32] = R.drawable.splash0066_m;*/
 				splashes[33] = R.drawable.splash0068_m;
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
@@ -391,7 +398,7 @@ public class WordExctinction extends Activity  {
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_s);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_s);
 				
-				bg = BitmapFactory.decodeResource(res, R.drawable.bg0002_s);
+				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
 				
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_s);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_s);
@@ -407,7 +414,7 @@ public class WordExctinction extends Activity  {
 				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_s);
 				
 				Log.e("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
-				gbgs[0] = R.drawable.bg0002_s;
+				/*gbgs[0] = R.drawable.bg0002_s;
 				gbgs[1] = R.drawable.bg0004_s;
 				gbgs[2] = R.drawable.bg0006_s;
 				gbgs[3] = R.drawable.bg0008_s;
@@ -420,10 +427,10 @@ public class WordExctinction extends Activity  {
 				gbgs[10] = R.drawable.bg0022_s;
 				gbgs[11] = R.drawable.bg0024_s;
 				gbgs[12] = R.drawable.bg0026_s;
-				gbgs[13] = R.drawable.bg0028_s;
+				gbgs[13] = R.drawable.bg0028_s;*/
 				gbgs[14] = R.drawable.bg0030_s;
 				
-				dbgs[0] = R.drawable.bg0032_s;
+				/*dbgs[0] = R.drawable.bg0032_s;
 				dbgs[1] = R.drawable.bg0034_s;
 				dbgs[2] = R.drawable.bg0036_s;
 				dbgs[3] = R.drawable.bg0038_s;
@@ -436,10 +443,10 @@ public class WordExctinction extends Activity  {
 				dbgs[10] = R.drawable.bg0052_s;
 				dbgs[11] = R.drawable.bg0054_s;
 				dbgs[12] = R.drawable.bg0056_s;
-				dbgs[13] = R.drawable.bg0058_s;
+				dbgs[13] = R.drawable.bg0058_s;*/
 				dbgs[14] = R.drawable.bg0060_s;
 				
-				splashes[ 0] = R.drawable.splash0002_s;
+				/*splashes[ 0] = R.drawable.splash0002_s;
 				splashes[ 1] = R.drawable.splash0004_s;
 				splashes[ 2] = R.drawable.splash0006_s;
 				splashes[3 ] = R.drawable.splash0008_s;
@@ -471,7 +478,7 @@ public class WordExctinction extends Activity  {
 				splashes[29] = R.drawable.splash0060_s;
 				splashes[30] = R.drawable.splash0062_s;
 				splashes[31] = R.drawable.splash0064_s;
-				splashes[32] = R.drawable.splash0066_s;
+				splashes[32] = R.drawable.splash0066_s;*/
 				splashes[33] = R.drawable.splash0068_s;
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
@@ -1445,7 +1452,7 @@ public class WordExctinction extends Activity  {
 						p2selected = (int)(x/sqSize);
 					}
 
-				} else if (x < sqSize*8 && y > getHeight() - 2*sqSize){
+				} else if (x < sqSize*8 && y > getHeight()/2){
 					p1done = false;
 					//player 1 has touched her word row
 					if(p1selected == -1){
@@ -1478,7 +1485,7 @@ public class WordExctinction extends Activity  {
 						p1selected = -1;
 
 					}
-				} else if (getWidth()-x < sqSize*8 && y < 2*sqSize){
+				} else if (getWidth()-x < sqSize*8 && y < getHeight()/2){
 					p2done = false;
 					//player 2 has touched her word row
 					x = getWidth() - x;
