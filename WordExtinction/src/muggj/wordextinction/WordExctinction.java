@@ -26,7 +26,7 @@
  * 		NO - #5 will fix this 9) Detect when no possible moves left in decay phase
  * 10) Allow dragging using touch up/down
  * 		DONE 11) Show bonus points for extinct words
- * 12) Effects for left-over letters
+ * 		DONE 12) Effects for left-over letters
  * 13) Is it possible to animate the background and still get good performance?
  */
 
@@ -1150,10 +1150,29 @@ public class WordExctinction extends Activity  {
 				/*if(p1word.length() == 0)
 					p1score += 2*(p1len);*/ //p1 gets bonus only if clearing
 				p2score += 2*(p1word.length()); //p2 get bonus based on leftovers
+				if(p1word.length() > 0){
+					DrawEffect bonusE = new DrawEffect();
+					bonusE.amount = 2*(p1word.length());
+					bonusE.whichPlayer = 1;
+					bonusE.x = 5*sqSize;
+					bonusE.y = (int)(1.5*sqSize);
+					bonusE.alpha = 255;
+					bonusE.type = 0;
+					deList.add(bonusE);
+				}
 				/*if(p2word.length() == 0)
 					p2score += 2*(p2len); *///p2 gets bonus only if clearing
 				p1score += 2*(p2word.length()); //p1 get bonus based on leftovers
-
+				if(p2word.length() > 0){
+					DrawEffect bonusE = new DrawEffect();
+					bonusE.amount = 2*(p2word.length());
+					bonusE.whichPlayer = 0;
+					bonusE.x = 5*sqSize;
+					bonusE.y = (int)(1.5*sqSize);
+					bonusE.alpha = 255;
+					bonusE.type = 0;
+					deList.add(bonusE);
+				}
 
 				p1word = "";
 				p2word = "";
