@@ -8,7 +8,7 @@
  * Bo, Pratima, Jake and Mike are The Miami Word Machine,
  * Miami University Global Game Jam 2011
  * 
- * This code is creative common attribution licensed. Enjoy it, but give credit!
+ * See below for the license terms for this code.
  * 
  * 
  * 2011-01-29, 10:03pm, EST - Bo
