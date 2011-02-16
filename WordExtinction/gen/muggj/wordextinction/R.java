@@ -66,7 +66,9 @@ public final class R {
         public static final int menu=0x7f050000;
     }
     public static final class raw {
-        public static final int wordlistoneperline=0x7f030000;
+        public static final int mostcommonwords=0x7f030000;
+        public static final int ruletest=0x7f030001;
+        public static final int wordlistoneperline=0x7f030002;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

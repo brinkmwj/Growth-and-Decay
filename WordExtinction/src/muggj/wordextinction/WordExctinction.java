@@ -541,7 +541,8 @@ public class WordExctinction extends Activity  {
 	int[] charcount = {12,9,9,8,6,6,6,4,4,4,4,3,2,2,2,2,2,2,2,2,2,1,1,1,1,1};
 	int[] charpts = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
 	int[] charbgs = {0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1};
-
+	int delpts = 1;
+	
 	public char randLetter(){
 		int r = rnd.nextInt(98); //HARD CODED CONSTANT - sum of charcount
 		//This is based on the scrabble distribution
@@ -836,7 +837,7 @@ public class WordExctinction extends Activity  {
 		protected int scoreWord(String s){
 			int score = 0;
 			for(int i=0; i<s.length(); i++){
-				score += charpts[s.charAt(i) - 'a'];
+				score += (1+charpts[s.charAt(i) - 'a']);
 			}
 
 			return score;
@@ -1114,10 +1115,10 @@ public class WordExctinction extends Activity  {
 				//Score leftover letters
 				/*if(p1word.length() == 0)
 					p1score += 2*(p1len);*/ //p1 gets bonus only if clearing
-				p2score += 2*(p1word.length()); //p2 get bonus based on leftovers
+				p2score += delpts*(p1word.length()); //p2 get bonus based on leftovers
 				if(p1word.length() > 0){
 					DrawEffect bonusE = new DrawEffect();
-					bonusE.amount = 2*(p1word.length());
+					bonusE.amount = delpts*(p1word.length());
 					bonusE.whichPlayer = 1;
 					bonusE.x = 5*sqSize;
 					bonusE.y = (int)(1.5*sqSize);
@@ -1127,10 +1128,10 @@ public class WordExctinction extends Activity  {
 				}
 				/*if(p2word.length() == 0)
 					p2score += 2*(p2len); *///p2 gets bonus only if clearing
-				p1score += 2*(p2word.length()); //p1 get bonus based on leftovers
+				p1score += delpts*(p2word.length()); //p1 get bonus based on leftovers
 				if(p2word.length() > 0){
 					DrawEffect bonusE = new DrawEffect();
-					bonusE.amount = 2*(p2word.length());
+					bonusE.amount = delpts*(p2word.length());
 					bonusE.whichPlayer = 0;
 					bonusE.x = 5*sqSize;
 					bonusE.y = (int)(1.5*sqSize);
@@ -1157,7 +1158,7 @@ public class WordExctinction extends Activity  {
 				//Draw the letter supply
 				for(int i=0;i<8;i++){
 					if(p1letters[i] != ' '){
-						drawTile(c,p1letters[i],i*sqSize,getHeight(),charpts[p1letters[i]-'a'],(i == p1selected || i == p1selected2));
+						drawTile(c,p1letters[i],i*sqSize,getHeight(),1+charpts[p1letters[i]-'a'],(i == p1selected || i == p1selected2));
 					}
 					p.setTextSize(sqSize);
 				}
@@ -1172,7 +1173,7 @@ public class WordExctinction extends Activity  {
 				p.setAlpha(255);
 				for(int i=0;i<p1word.length();i++){
 					if(p1word.charAt(i) != ' '){
-						drawTile(c,p1word.charAt(i),offset+i*sqSize,getHeight()-sqSize,charpts[p1word.charAt(i)-'a'],false);
+						drawTile(c,p1word.charAt(i),offset+i*sqSize,getHeight()-sqSize,1+charpts[p1word.charAt(i)-'a'],false);
 					}
 
 					p.setTextSize(sqSize);
@@ -1213,7 +1214,7 @@ public class WordExctinction extends Activity  {
 				//Draw player 2's letter supply
 				for(int i=0;i<8;i++){
 					if(p2letters[i] != ' '){
-						drawTile(c,p2letters[i],i*sqSize,getHeight(),charpts[p2letters[i]-'a'],(i == p2selected || i == p2selected2));
+						drawTile(c,p2letters[i],i*sqSize,getHeight(),1+charpts[p2letters[i]-'a'],(i == p2selected || i == p2selected2));
 					}
 
 					p.setTextSize(sqSize);
@@ -1233,7 +1234,7 @@ public class WordExctinction extends Activity  {
 				offset = (8*sqSize - p2word.length()*sqSize)/2;
 				for(int i=0;i<p2word.length();i++){
 					if(p2word.charAt(i) != ' '){
-						drawTile(c,p2word.charAt(i),offset+i*sqSize,getHeight()-sqSize,charpts[p2word.charAt(i)-'a'],false);
+						drawTile(c,p2word.charAt(i),offset+i*sqSize,getHeight()-sqSize,1+charpts[p2word.charAt(i)-'a'],false);
 					}
 
 					p.setTextSize(sqSize);
@@ -1274,7 +1275,7 @@ public class WordExctinction extends Activity  {
 				//Draw player 1's word in the word box
 				int offset = (8*sqSize - p1word.length()*sqSize)/2;
 				for(int i=0;i<p1word.length();i++){
-					drawTile(c,p1word.charAt(i),offset+i*sqSize,getHeight()-sqSize,2,(p1selected == i || p1selected2 == i));
+					drawTile(c,p1word.charAt(i),offset+i*sqSize,getHeight()-sqSize,delpts,(p1selected == i || p1selected2 == i));
 
 					p.setTextSize(sqSize);
 				}
@@ -1360,8 +1361,9 @@ public class WordExctinction extends Activity  {
 				//Draw player 2's word
 				offset = (8*sqSize - p2word.length()*sqSize)/2;
 				for(int i=0;i<p2word.length();i++){
-					drawTile(c,p2word.charAt(i),offset+i*sqSize,getHeight()-sqSize,2,(p2selected == i || p2selected2 == i));
+					drawTile(c,p2word.charAt(i),offset+i*sqSize,getHeight()-sqSize,delpts,(p2selected == i || p2selected2 == i));
 
+					
 					p.setTextSize(sqSize);
 				}
 				//Draw player 2's mallet
@@ -1696,7 +1698,7 @@ public class WordExctinction extends Activity  {
 							String t = p1word.substring(0,p1selected) + p1word.substring(p1selected+1);
 							if(t.length() == 0 || wordSet.contains(t)){
 								DrawEffect Se = new DrawEffect();
-								Se.amount = 2;
+								Se.amount = delpts;
 								Se.type = 0;
 								Se.whichPlayer = 0;
 								float letOff = p1selected - p1word.length()/2.0f;
@@ -1712,7 +1714,7 @@ public class WordExctinction extends Activity  {
 								Se.y = (int) getHeight()-3*sqSize/2;
 								deList.add(Se);
 
-								p1score += 2;
+								p1score += delpts;
 								p1word = t;
 							}
 							if(t.length() == 0){
@@ -1724,14 +1726,14 @@ public class WordExctinction extends Activity  {
 								deList.add(ExtinctE);
 
 
-								p1score += 2*(p1len);
+								p1score += delpts*(p1len);
 
 								ExtinctE = new DrawEffect();
 								ExtinctE.whichPlayer = 0;
 								ExtinctE.x = 4*sqSize;
 								ExtinctE.y = getHeight()-sqSize;
 								ExtinctE.type = 0;
-								ExtinctE.amount = 2*p1len;
+								ExtinctE.amount = delpts*p1len;
 								deList.add(ExtinctE);
 							}
 							p1selected = p1selected2 = -1;
@@ -1754,7 +1756,7 @@ public class WordExctinction extends Activity  {
 							String t = p1word.substring(0,small) + p1word.substring(big+1);
 							if(t.length() == 0 || wordSet.contains(t)){
 								DrawEffect Se = new DrawEffect();
-								Se.amount = 4;
+								Se.amount = delpts*2;
 								Se.type = 0;
 								Se.whichPlayer = 0;
 								float letOff = p1selected - p1word.length()/2.0f;
@@ -1779,7 +1781,7 @@ public class WordExctinction extends Activity  {
 								Se.y = (int) getHeight()-3*sqSize/2;
 								deList.add(Se);
 								
-								p1score += 4;
+								p1score += delpts*2;
 								p1word = t;
 							}
 							if(t.length() == 0){
@@ -1790,14 +1792,14 @@ public class WordExctinction extends Activity  {
 								ExtinctE.type = 1;
 								deList.add(ExtinctE);
 
-								p1score += 2*(p1len);
+								p1score += delpts*(p1len);
 
 								ExtinctE = new DrawEffect();
 								ExtinctE.whichPlayer = 0;
 								ExtinctE.x = 4*sqSize;
 								ExtinctE.y = getHeight()-sqSize;
 								ExtinctE.type = 0;
-								ExtinctE.amount = 2*p1len;
+								ExtinctE.amount = delpts*p1len;
 								deList.add(ExtinctE);
 							}
 							p1selected = p1selected2 = -1;
@@ -1816,7 +1818,7 @@ public class WordExctinction extends Activity  {
 							String t = p2word.substring(0,p2selected) + p2word.substring(p2selected+1);
 							if(t.length() == 0 || wordSet.contains(t)){
 								DrawEffect Se = new DrawEffect();
-								Se.amount = 2;
+								Se.amount = delpts;
 								Se.type = 0;
 								Se.whichPlayer = 1;
 								float letOff = p2selected - p2word.length()/2.0f;
@@ -1832,7 +1834,7 @@ public class WordExctinction extends Activity  {
 								Se.y = (int) getHeight()-3*sqSize/2;
 								deList.add(Se);
 
-								p2score += 2;
+								p2score += delpts;
 								p2word = t;
 							}
 							if(t.length() == 0){
@@ -1843,14 +1845,14 @@ public class WordExctinction extends Activity  {
 								ExtinctE.type = 1;
 								deList.add(ExtinctE);
 
-								p2score += 2*(p2len);
+								p2score += delpts*(p2len);
 
 								ExtinctE = new DrawEffect();
 								ExtinctE.whichPlayer = 1;
 								ExtinctE.x = 4*sqSize;
 								ExtinctE.y = getHeight()-sqSize;
 								ExtinctE.type = 0;
-								ExtinctE.amount = 2*p2len;
+								ExtinctE.amount = delpts*p2len;
 								deList.add(ExtinctE);
 							}
 							p2selected = p2selected2 = -1;
@@ -1874,7 +1876,7 @@ public class WordExctinction extends Activity  {
 							String t = p2word.substring(0,small) + p2word.substring(big+1);
 							if(t.length() == 0 || wordSet.contains(t)){
 								DrawEffect Se = new DrawEffect();
-								Se.amount = 4;
+								Se.amount = delpts*2;
 								Se.type = 0;
 								Se.whichPlayer = 1;
 								float letOff = p2selected - p2word.length()/2.0f;
@@ -1899,7 +1901,7 @@ public class WordExctinction extends Activity  {
 								Se.y = (int) getHeight()-3*sqSize/2;
 								deList.add(Se);
 
-								p2score += 4;
+								p2score += delpts*2;
 								p2word = t;
 							}
 							p2selected = p2selected2 = -1;
@@ -1911,14 +1913,14 @@ public class WordExctinction extends Activity  {
 								ExtinctE.type = 1;
 								deList.add(ExtinctE);
 
-								p2score += 2*(p2len);
+								p2score += delpts*(p2len);
 
 								ExtinctE = new DrawEffect();
 								ExtinctE.whichPlayer = 1;
 								ExtinctE.x = 4*sqSize;
 								ExtinctE.y = getHeight()-sqSize;
 								ExtinctE.type = 0;
-								ExtinctE.amount = 2*p2len;
+								ExtinctE.amount = delpts*p2len;
 								deList.add(ExtinctE);
 							}
 						}
