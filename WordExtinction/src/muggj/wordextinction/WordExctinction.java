@@ -117,6 +117,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Timer;
 
+import muggj.wordextinction.WordExctinction.WEView.DrawEffect;
+
 
 import android.app.Activity;
 
@@ -127,6 +129,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Paint.Align;
 
 import android.graphics.drawable.ShapeDrawable;
@@ -143,24 +146,35 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 public class WordExctinction extends Activity  {
-	public HashSet<String> wordSet;
-
-	Activity mActivity;
-	WEView mView;
-	Random rnd;
-	Bitmap fl1TileImage;
-	Bitmap fl2TileImage;
-	Bitmap fl3TileImage;
-	//Bitmap shearTile;
-
-	Bitmap bg;
-
+	//CONSTANTS
 	static int MSPERFRAME = 1000/24;
 	static int p1color = 0xfff17720;
 	static int p2color = 0xfff420e8;
 	static int textColor = 0xff000000;
 	static int textBorderColor = 0xffffffff;
 	static int textHighliteColor = 0xffffff00;
+	
+	//DATA LOADED IN onCreate
+	public HashSet<String> wordSet;
+	Activity mActivity;
+	WEView mView;
+	Random rnd;
+	
+	//DATA LOADED IN onStart, FREED in onStop
+	Bitmap fl1TileImage;
+	Bitmap fl2TileImage;
+	Bitmap fl3TileImage;
+	Bitmap leaf_bronze;
+	Bitmap leaf_silver;
+	Bitmap leaf_gold;
+	Bitmap leaf_ruby;
+	Bitmap leaf_diamond;
+	Bitmap mirror_leaf;
+	Bitmap cat_leaf;
+
+	Bitmap gbg;
+	Bitmap dbg;
+	Bitmap splash;
 
 	Bitmap greyButton;
 	Bitmap activeButton;
@@ -173,15 +187,11 @@ public class WordExctinction extends Activity  {
 	Bitmap petal3;
 	Resources res;
 
-	int[] gbgs;
-	int[] dbgs;
-	int[] splashes;
 
+	//TODO: When/where should these be initialized
 	boolean inDraw;
-
 	//2 is high, 1 is medium, 0 is low
 	int mGraphicsLevel;
-
 	Paint bmP;
 
 
@@ -218,9 +228,19 @@ public class WordExctinction extends Activity  {
 				fl1TileImage = BitmapFactory.decodeResource(res, R.drawable.flower1_h);
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_h);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_h);
-
-				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_h);//This is to test memory availability
-
+				
+				leaf_bronze = BitmapFactory.decodeResource(res, R.drawable.leaf_bronze_h);
+				leaf_silver = BitmapFactory.decodeResource(res, R.drawable.leaf_silver_h);
+				leaf_gold = BitmapFactory.decodeResource(res, R.drawable.leaf_gold_h);
+				leaf_ruby = BitmapFactory.decodeResource(res, R.drawable.leaf_ruby_h);
+				leaf_diamond = BitmapFactory.decodeResource(res, R.drawable.leaf_diamond_h);
+				mirror_leaf = BitmapFactory.decodeResource(res, R.drawable.mirror_leaf_h);
+				cat_leaf = BitmapFactory.decodeResource(res, R.drawable.cat_leaf_h);
+				
+				gbg = BitmapFactory.decodeResource(res, R.drawable.bg0030_h);
+				dbg = BitmapFactory.decodeResource(res, R.drawable.bg0060_h);
+				splash = BitmapFactory.decodeResource(res, R.drawable.splash0068_m);
+				
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_h);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_h);
 				checkedButton = BitmapFactory.decodeResource(res, R.drawable.checkbutton_h);
@@ -236,12 +256,6 @@ public class WordExctinction extends Activity  {
 
 				Log.d("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
 
-
-				splashes[33] = R.drawable.splash0068_m;
-				gbgs[14] = R.drawable.bg0030_h;
-				dbgs[14] = R.drawable.bg0060_h;
-
-
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
 				Log.d("GaD","Hi-res image load failed");
@@ -255,8 +269,17 @@ public class WordExctinction extends Activity  {
 			fl1TileImage = null;
 			fl2TileImage = null;
 			fl3TileImage = null;
-
-			bg = null;
+			leaf_bronze = null;
+			leaf_silver = null;
+			leaf_gold = null;
+			leaf_ruby = null;
+			leaf_diamond = null;
+			mirror_leaf = null;
+			cat_leaf = null;
+			
+			gbg = null;
+			dbg = null;
+			splash = null;
 
 			greyButton = null;
 			activeButton = null;
@@ -277,7 +300,17 @@ public class WordExctinction extends Activity  {
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_h);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_h);
 
-				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_m);
+				leaf_bronze = BitmapFactory.decodeResource(res, R.drawable.leaf_bronze_h);
+				leaf_silver = BitmapFactory.decodeResource(res, R.drawable.leaf_silver_h);
+				leaf_gold = BitmapFactory.decodeResource(res, R.drawable.leaf_gold_h);
+				leaf_ruby = BitmapFactory.decodeResource(res, R.drawable.leaf_ruby_h);
+				leaf_diamond = BitmapFactory.decodeResource(res, R.drawable.leaf_diamond_h);
+				mirror_leaf = BitmapFactory.decodeResource(res, R.drawable.mirror_leaf_h);
+				cat_leaf = BitmapFactory.decodeResource(res, R.drawable.cat_leaf_h);
+				
+				gbg = BitmapFactory.decodeResource(res, R.drawable.bg0030_m);
+				dbg = BitmapFactory.decodeResource(res, R.drawable.bg0060_m);
+				splash = BitmapFactory.decodeResource(res, R.drawable.splash0068_m);
 
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_h);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_h);
@@ -293,10 +326,6 @@ public class WordExctinction extends Activity  {
 				petal3 = BitmapFactory.decodeResource(res, R.drawable.petal3_h);
 
 				Log.d("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
-
-				gbgs[14] = R.drawable.bg0030_m;
-				dbgs[14] = R.drawable.bg0060_m;
-				splashes[33] = R.drawable.splash0068_m;
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
 				Log.d("GaD","Mid-res image load failed");
@@ -311,7 +340,17 @@ public class WordExctinction extends Activity  {
 			fl2TileImage = null;
 			fl3TileImage = null;
 
-			bg = null;
+			leaf_bronze = null;
+			leaf_silver = null;
+			leaf_gold = null;
+			leaf_ruby = null;
+			leaf_diamond = null;
+			mirror_leaf = null;
+			cat_leaf = null;
+			
+			gbg = null;
+			dbg = null;
+			splash = null;
 
 			greyButton = null;
 			activeButton = null;
@@ -332,7 +371,18 @@ public class WordExctinction extends Activity  {
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_m);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_m);
 
-				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
+				//TODO: Add medium versions
+				leaf_bronze = BitmapFactory.decodeResource(res, R.drawable.leaf_bronze_h);
+				leaf_silver = BitmapFactory.decodeResource(res, R.drawable.leaf_silver_h);
+				leaf_gold = BitmapFactory.decodeResource(res, R.drawable.leaf_gold_h);
+				leaf_ruby = BitmapFactory.decodeResource(res, R.drawable.leaf_ruby_h);
+				leaf_diamond = BitmapFactory.decodeResource(res, R.drawable.leaf_diamond_h);
+				mirror_leaf = BitmapFactory.decodeResource(res, R.drawable.mirror_leaf_h);
+				cat_leaf = BitmapFactory.decodeResource(res, R.drawable.cat_leaf_h);
+				
+				gbg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
+				dbg = BitmapFactory.decodeResource(res, R.drawable.bg0060_s);
+				splash = BitmapFactory.decodeResource(res, R.drawable.splash0068_s);
 
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_m);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_m);
@@ -349,9 +399,6 @@ public class WordExctinction extends Activity  {
 
 				Log.d("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
 
-				gbgs[14] = R.drawable.bg0030_s;
-				dbgs[14] = R.drawable.bg0060_s;
-				splashes[33] = R.drawable.splash0068_s;
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
 				//TODO: Give the user a meaningful error message
@@ -368,7 +415,17 @@ public class WordExctinction extends Activity  {
 			fl2TileImage = null;
 			fl3TileImage = null;
 
-			bg = null;
+			leaf_bronze = null;
+			leaf_silver = null;
+			leaf_gold = null;
+			leaf_ruby = null;
+			leaf_diamond = null;
+			mirror_leaf = null;
+			cat_leaf = null;
+			
+			gbg = null;
+			dbg = null;
+			splash = null;
 
 			greyButton = null;
 			activeButton = null;
@@ -389,7 +446,18 @@ public class WordExctinction extends Activity  {
 				fl2TileImage = BitmapFactory.decodeResource(res, R.drawable.flower2_s);
 				fl3TileImage = BitmapFactory.decodeResource(res, R.drawable.flower3_s);
 
-				bg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
+				//TODO add small versions
+				leaf_bronze = BitmapFactory.decodeResource(res, R.drawable.leaf_bronze_h);
+				leaf_silver = BitmapFactory.decodeResource(res, R.drawable.leaf_silver_h);
+				leaf_gold = BitmapFactory.decodeResource(res, R.drawable.leaf_gold_h);
+				leaf_ruby = BitmapFactory.decodeResource(res, R.drawable.leaf_ruby_h);
+				leaf_diamond = BitmapFactory.decodeResource(res, R.drawable.leaf_diamond_h);
+				mirror_leaf = BitmapFactory.decodeResource(res, R.drawable.mirror_leaf_h);
+				cat_leaf = BitmapFactory.decodeResource(res, R.drawable.cat_leaf_h);
+				
+				gbg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
+				dbg = BitmapFactory.decodeResource(res, R.drawable.bg0060_s);
+				splash = BitmapFactory.decodeResource(res, R.drawable.splash0068_s);
 
 				greyButton = BitmapFactory.decodeResource(res, R.drawable.grbut_s);
 				activeButton = BitmapFactory.decodeResource(res, R.drawable.actbut_s);
@@ -406,9 +474,6 @@ public class WordExctinction extends Activity  {
 
 				Log.d("GaD","loadBitmaps succeeded at level: "+mGraphicsLevel);
 
-				gbgs[14] = R.drawable.bg0030_s;
-				dbgs[14] = R.drawable.bg0060_s;
-				splashes[33] = R.drawable.splash0068_s;
 				//If it worked, set the ids for the other BG and Splash images
 			} catch (OutOfMemoryError e){
 				//TODO: Give the user a meaningful error message
@@ -416,7 +481,6 @@ public class WordExctinction extends Activity  {
 			}
 		}
 
-		bg = null;
 	}
 
 	public void loadWords(){
@@ -466,35 +530,29 @@ public class WordExctinction extends Activity  {
 			break;
 		}
 
-
-		dbgs = new int[15];
-		gbgs = new int[15];
-		splashes = new int[34];
-
 		bmP = new Paint();
 		bmP.setFilterBitmap(true);
 
 		mActivity = this;
 	}
+	
+	//TODO: Add an onDestroy to save game state, and then add functionality
+	//      to load it during game init.
 
-	protected void onResume(){
-
+	protected void onStart(){	
 		Log.d("GaD","Resuming");
 		inDraw = false;
 		loadWords();
 		loadBitmaps();
-
-		super.onResume();
-		mView.setVisibility(View.VISIBLE);
+		super.onStart();
+		//mView.setVisibility(View.VISIBLE);
 	}
 
-
-
-	protected void onPause(){
+	protected void onStop(){
 		//This stops onDraw from being called?
-		mView.setVisibility(View.INVISIBLE);
-		super.onPause();
-
+		//mView.setVisibility(View.INVISIBLE);
+		super.onStop();
+		
 		/*
 		 * TODO: This is almost certainly not the right way to
 		 * synchronize onPause with onDraw. Figure it out later.
@@ -516,7 +574,9 @@ public class WordExctinction extends Activity  {
 		fl2TileImage = null;
 		fl3TileImage = null;
 
-		bg = null;
+		gbg = null;
+		dbg = null;
+		splash = null;
 
 		greyButton = null;
 		activeButton = null;
@@ -532,11 +592,11 @@ public class WordExctinction extends Activity  {
 		petal3 = null;
 		System.gc();
 		Log.d("GaD","Paused");
-
 	}
 
 	//This is based on the SCRABBLE (TM) letter distribution. Scrabble has 100 tiles,
 	// but we only have 98 because we don't have blanks
+	//CONSTANTS -- Don't need to be saved/loaded
 	char[] chardist = {'e','a','i','o','n','r','t','l','s','u','d','g','b','c','m','p','f','h','v','w','y','k','j','x','q','z'};
 	int[] charcount = {12,9,9,8,6,6,6,4,4,4,4,3,2,2,2,2,2,2,2,2,2,1,1,1,1,1};
 	int[] charpts = {1,3,3,2,1,4,2,4,1,8,5,1,3,1,1,3,10,1,1,1,1,4,4,8,4,10};
@@ -559,12 +619,19 @@ public class WordExctinction extends Activity  {
 
 
 	public class WEView extends View implements OnTouchListener {
+		//TODO Think about when is the right time to set this
+		int sqSize;
+		
+		//CONSTANTS -- 
+		public int scoreGoal = 250;
+		
+		//GAME STATE VARIABLES -- Need to be saved/loaded
+		// in onDestroy/onCreate
 		public int mode; //0 - growth, 1 - extinction, 2 - Title movie
-		public boolean newLettersNeeded;
+		//public boolean newLettersNeeded;
 		public char[] p1letters;
 		public char[] p2letters;
-		int sqSize;
-
+		
 		public int p1selected;
 		public int p2selected;
 		public int p1selected2;
@@ -574,8 +641,7 @@ public class WordExctinction extends Activity  {
 		public boolean p1done;
 		public boolean p2done;
 		public int p1score;
-		public int p2score;
-		public int scoreGoal = 250;
+		public int p2score;	
 
 		public int p1SmallMallets;
 		public int p2SmallMallets;
@@ -584,14 +650,27 @@ public class WordExctinction extends Activity  {
 		public int p1len;
 		public int p2len;
 		public boolean gameover;
-		public Timer timer;
+		//public Timer timer;
 		public boolean openingdone;
 		public int p1DecayDone;
-		public int p2DecayDone;
-		
-		public int whichBG;
+		public int p2DecayDone;	
+		//public int whichBG;
 		public long lastDrawTime;
+		public boolean newLettersNeeded;
+		public ArrayList<DrawEffect> deList;
+		public int p1downX;
+		public int p1downY;
+		public int p2downX;
+		public int p2downY;
 
+		//Achievement related variables
+		ArrayList<String> p1words;
+		ArrayList<String> p2words;
+		int p1achX;
+		int p2achX;
+
+		
+		
 		public class DrawEffect {
 			int x;
 			int y;
@@ -600,12 +679,17 @@ public class WordExctinction extends Activity  {
 			 * Type 0: Scoring effect
 			 * Type 1: Extinction effect
 			 * Type 2: Dead flower
+			 * Type 3: Star
+			 * Type 4: Achievement message
 			 */
 			boolean done;
 			int whichPlayer;
 			int alpha;
 			int amount;
 			int whichLetter;
+			float scale;
+			public String award;
+			public String reason;
 
 			public DrawEffect(){
 				x = getWidth()/2;
@@ -614,6 +698,7 @@ public class WordExctinction extends Activity  {
 				done = false;
 				whichPlayer = 0;
 				alpha = 255;
+				scale = 1.0f;
 			}
 
 			public void draw(Canvas c, int numSteps){
@@ -648,7 +733,16 @@ public class WordExctinction extends Activity  {
 						c.save();
 						c.rotate(180,getWidth()/2,getHeight()/2);
 					}
+					
+					
 					c.drawText("+"+String.valueOf(amount), x, y, p);
+					
+					p.setStyle(Paint.Style.STROKE);
+					p.setStrokeWidth(((float)sqSize)/60.0f);
+					p.setColor(textBorderColor);
+					p.setAlpha(alpha);
+					c.drawText("+"+String.valueOf(amount), x, y, p);
+					
 					if(whichPlayer == 1){
 						c.restore();
 					}
@@ -689,7 +783,16 @@ public class WordExctinction extends Activity  {
 						c.save();
 						c.rotate(180,getWidth()/2,getHeight()/2);
 					}
+					
+					
 					c.drawText("Opponent's plants uprooted!", 5*sqSize, getHeight()-y, p);
+					p.setStyle(Paint.Style.STROKE);
+					p.setStrokeWidth(((float)sqSize)/60.0f);
+					p.setColor(textBorderColor);
+					p.setAlpha(alpha);
+					c.drawText("Opponent's plants uprooted!", 5*sqSize, getHeight()-y, p);
+					
+					
 					if(whichPlayer == 1){
 						c.restore();
 					}
@@ -716,7 +819,157 @@ public class WordExctinction extends Activity  {
 						c.restore();
 					}
 					break;
+					
+				case 3:
+					p = new Paint();
+					p.setAntiAlias(true);
+					Bitmap lbmp= null;
+					if(amount == 0){
+						lbmp = leaf_bronze;//p.setColor(0xff8C7853); //bronze
+					} else if(amount == 1){
+						lbmp = leaf_silver;//p.setColor(0xffE6E8FA); //silver
+					} else if(amount == 2){
+						lbmp = leaf_gold;//p.setColor(0xffD9D919); //gold
+					} else if(amount == 3){
+						lbmp = leaf_ruby;//p.setColor(0xffbb0000); //ruby
+					} else if(amount == 4){
+						lbmp = leaf_diamond;//p.setColor(0xffffffff); //diamond
+					} else if(amount == 5){
+						lbmp = mirror_leaf;
+					} else if(amount == 6){
+						lbmp = cat_leaf;
+					}
+						
+					if(whichPlayer == 1){
+						c.save();
+						c.rotate(180,getWidth()/2,getHeight()/2);
+					}
+					p.setFilterBitmap(true);
+					//(12,38) to (89,115)
+					
+					c.drawBitmap(lbmp,null, new Rect(x, y, x+(sqSize/2), y+(sqSize/2)), p);
+					if(whichPlayer == 1){
+						c.restore();
+					}
+					break;
+					
+				case 4:
+					p = new Paint();
+					p.setAntiAlias(true);
 
+					if(whichPlayer == 0){
+						p.setColor(p1color);
+					} else {
+						p.setColor(p2color);
+					}
+					p.setAlpha(alpha);
+					
+					p.setTextAlign(Align.CENTER);
+					if(whichPlayer == 1){
+						c.save();
+						c.rotate(180,getWidth()/2,getHeight()/2);
+					}
+					String s1 ="";
+					String s2 = "awarded for";
+					String s3 ="";
+					if(amount == 0){
+						s1 = "Bronze Leaf"; //bronze
+						s3 = "20-point Word";
+					} else if(amount == 1){
+						s1 = "Silver Leaf"; //bronze
+						s3 = "25-point Word";
+					} else if(amount == 2){
+						s1 = "Gold Leaf"; //bronze
+						s3 = "27-point Word";
+					} else if(amount == 3){
+						s1 = "Ruby Leaf"; //bronze
+						s3 = "29-point Word";
+					} else if(amount == 4){
+						s1 = "Diamond Leaf"; //bronze
+						s3 = "31-point Word";
+					}
+					
+					if(scale > 0.0f){
+						p.setTextSize(scale*sqSize);
+						c.drawText(s1, x, y-scale*(sqSize/2), p);
+						p.setTextSize(scale*(sqSize/2));
+						c.drawText(s2, x, y+scale*(sqSize/8), p);
+						p.setTextSize(scale*sqSize);
+						c.drawText(s3, x, y+scale*sqSize, p);
+						
+						p.setStyle(Paint.Style.STROKE);
+						p.setStrokeWidth(scale*((float)sqSize)/60.0f);
+						p.setColor(textBorderColor);
+						p.setTextSize(scale*sqSize);
+						c.drawText(s1, x, y-scale*(sqSize/2), p);
+						p.setTextSize(scale*(sqSize/2));
+						c.drawText(s2, x, y+scale*(sqSize/8), p);
+						p.setTextSize(scale*sqSize);
+						c.drawText(s3, x, y+scale*sqSize, p);
+					}
+					
+					scale -= 0.035f;
+					if(scale <= 0.0f){
+						done = true;
+					}
+					if(whichPlayer == 1){
+						c.restore();
+					}
+					break;
+					
+				case 5:
+					p = new Paint();
+					p.setAntiAlias(true);
+
+					if(whichPlayer == 0){
+						p.setColor(p1color);
+					} else {
+						p.setColor(p2color);
+					}
+					p.setAlpha(alpha);
+					
+					p.setTextAlign(Align.CENTER);
+					if(whichPlayer == 1){
+						c.save();
+						c.rotate(180,getWidth()/2,getHeight()/2);
+					}
+					
+					
+					String s11 = award;
+					String s21 = "awarded for";
+					String s31 = reason;
+					
+					if(scale > 0.0f){
+						p.setTextSize(scale*sqSize);
+						c.drawText(s11, x, y-scale*(sqSize/2), p);
+						p.setTextSize(scale*(sqSize/2));
+						c.drawText(s21, x, y+scale*(sqSize/8), p);
+						p.setTextSize(scale*sqSize);
+						c.drawText(s31, x, y+scale*sqSize, p);
+						
+						p.setStyle(Paint.Style.STROKE);
+						p.setStrokeWidth(scale*((float)sqSize)/60.0f);
+						p.setColor(textBorderColor);
+						p.setTextSize(scale*sqSize);
+						c.drawText(s11, x, y-scale*(sqSize/2), p);
+						p.setTextSize(scale*(sqSize/2));
+						c.drawText(s21, x, y+scale*(sqSize/8), p);
+						p.setTextSize(scale*sqSize);
+						c.drawText(s31, x, y+scale*sqSize, p);
+					}
+					
+					
+					scale -= 0.035f;
+					if(scale <= 0.0f){
+						done = true;
+					}
+					if(whichPlayer == 1){
+						c.restore();
+					}
+					break;
+					
+					
+					
 				default:
 					//Do nothing but die
 					done = true;
@@ -728,8 +981,6 @@ public class WordExctinction extends Activity  {
 			}
 
 		}
-
-		public ArrayList<DrawEffect> deList;
 
 		public WEView(Context context) {
 			super(context);
@@ -758,7 +1009,7 @@ public class WordExctinction extends Activity  {
 			p1downY = -1;
 			p2downX = -1;
 			p2downY = -1;
-			whichBG = 0;
+			//whichBG = 0;
 
 			lastDrawTime = -1; //(new Date()).getTime();
 
@@ -832,6 +1083,25 @@ public class WordExctinction extends Activity  {
 					if(isvowel(p2letters[i])) p2vowelcount++;
 				}
 			}
+			
+			//TODO REMOVE THIS
+			/*p1letters[0] = 'j';
+			p1letters[1] = 'u';
+			p1letters[2] = 'm';
+			p1letters[3] = 'b';
+			p1letters[4] = 'o';
+			p1letters[5] = 'o';
+			p1letters[6] = 'b';
+			p1letters[7] = 's';
+			
+			p2letters[0] = 'j';
+			p2letters[1] = 'u';
+			p2letters[2] = 'm';
+			p2letters[3] = 'b';
+			p2letters[4] = 'o';
+			p2letters[5] = 'o';
+			p2letters[6] = 'b';
+			p2letters[7] = 's';*/
 		}
 
 		protected int scoreWord(String s){
@@ -845,7 +1115,7 @@ public class WordExctinction extends Activity  {
 
 		//Utility function to load background bitmaps, and handle
 		// out of memory errors
-		protected void loadBG(int number){
+		/*protected void loadBG(int number){
 			boolean done = false;
 
 			while(!done){
@@ -859,13 +1129,13 @@ public class WordExctinction extends Activity  {
 					loadBitmaps();
 				}
 			}
-		}
+		}*/
 
 
 		public void newGame(){
 			//openingdone = false;
 			mode = 0;
-			whichBG = 0;
+			//whichBG = 0;
 
 			p1word = "";
 			p2word = "";
@@ -881,7 +1151,14 @@ public class WordExctinction extends Activity  {
 			p2selected2 = -1;
 			pickNewLetters();
 
-			loadBG(gbgs[14]);	
+			p1words = new ArrayList<String>();
+			p2words = new ArrayList<String>();
+			p1achX = 0;
+			p2achX = 0;
+			
+			deList.clear();
+			
+			//loadBG(gbgs[14]);	
 			this.invalidate();
 		}
 
@@ -920,33 +1197,15 @@ public class WordExctinction extends Activity  {
 				Log.e("GaD","Skipped " + (drawSteps-1) + " steps of animation");
 			}*/
 
-			whichBG = whichBG + (drawSteps/2);
+			//whichBG = whichBG + (drawSteps/2);
 
 
-			if(mode == 0){
-				if(whichBG > 14)
-					whichBG = 14;
-				//loadBG(gbgs[whichBG]);
-				if(bg == null){
-					loadBG(gbgs[14]);
-				}
-				c.drawBitmap(bg, null, new Rect(0,0,getWidth(),getHeight()), bmP);
+			if(mode == 0){			
+				c.drawBitmap(gbg, null, new Rect(0,0,getWidth(),getHeight()), bmP);
 			} else if(mode == 1){
-				if(whichBG > 14)
-					whichBG = 14;
-				//loadBG(dbgs[whichBG]);
-				if(bg == null){
-					loadBG(dbgs[14]);
-				}
-				c.drawBitmap(bg, null, new Rect(0,0,getWidth(),getHeight()), bmP);
+				c.drawBitmap(dbg, null, new Rect(0,0,getWidth(),getHeight()), bmP);
 			} else {
-				if(whichBG > 33)
-					whichBG = 33;
-				if(bg == null){
-					loadBG(splashes[33]);
-				}
-				//loadBG(splashes[whichBG]);
-				c.drawBitmap(bg, null, new Rect(0,0,getWidth(),getHeight()), bmP);
+				c.drawBitmap(splash, null, new Rect(0,0,getWidth(),getHeight()), bmP);
 			}
 
 			if(mode == 2){
@@ -1029,7 +1288,17 @@ public class WordExctinction extends Activity  {
 
 			if(p1score >= scoreGoal || p2score >= scoreGoal){
 				gameover = true;
-				deList.clear();
+				Iterator<DrawEffect> it = deList.iterator();
+				DrawEffect ef;
+				while(it.hasNext()){
+					ef=it.next();
+					if(ef.isDone()){
+						it.remove();
+					} else {
+						ef.draw(c,drawSteps);
+					}
+				}
+				
 				if(p1score > p2score){
 					c.drawText("Winner - "+p1score+" points", getWidth()/2, getHeight()-sqSize, p);
 					c.save();
@@ -1050,6 +1319,8 @@ public class WordExctinction extends Activity  {
 					c.restore();
 				}
 				inDraw = false;
+				
+				this.postInvalidateDelayed(MSPERFRAME/2);
 				return;
 			}
 
@@ -1057,8 +1328,7 @@ public class WordExctinction extends Activity  {
 			if(mode == 0 && p1done && p2done){
 				mode = 1;
 				//If both players are done, total points and reset
-				whichBG = 0;
-				loadBG(dbgs[14]);
+				//whichBG = 0;
 
 				p1done = false;
 				p2done = false;
@@ -1081,6 +1351,8 @@ public class WordExctinction extends Activity  {
 				p2SE.whichPlayer = 1;
 				deList.add(p2SE);
 
+				doGrowthAchievements(p1word, p2word);
+				
 				String t = p1word;
 				p1word = p2word;
 				p2word = t;
@@ -1106,8 +1378,8 @@ public class WordExctinction extends Activity  {
 			} else if(mode == 1 && (p1done || p1DecayDone ==2) && 
 					(p2done || p2DecayDone == 2)){
 				mode = 0;
-				whichBG = 0;
-				loadBG(gbgs[14]);
+				//whichBG = 0;
+
 				p1done = false;
 				p2done = false;
 				p1DecayDone = 0;
@@ -1456,11 +1728,6 @@ public class WordExctinction extends Activity  {
 		}
 
 
-		public int p1downX;
-		public int p1downY;
-		public int p2downX;
-		public int p2downY;
-
 		public boolean onTouch(View arg0, MotionEvent arg1) {	
 
 			float x = arg1.getX();
@@ -1499,16 +1766,19 @@ public class WordExctinction extends Activity  {
 				if(mode == 2){
 					openingdone = false;
 					mode = 0;
-					whichBG = 0;
-					loadBG(gbgs[14]);
+					if(deList != null){
+						deList.clear();
+					}
+					//whichBG = 0;
+
 					return true;
 				}
 
 				if(gameover){
 					gameover = false;
 					mode = 2;
-					whichBG = 0;
-					loadBG(splashes[33]);
+					//whichBG = 0;
+
 					p1done = false;
 					p2done = false;
 
@@ -1953,7 +2223,258 @@ public class WordExctinction extends Activity  {
 
 
 
-
+		
+		
+		/*
+		 * ACHIEVEMENTS
+		 */
+		
+		/* YES -- DONE
+		 * 
+		 * Diamond/Platinum/Gold/Silver/Bronze star for building words.
+		 * Diamond star - 45 pt word. Only 418 of these.
+		 * Ruby star - 40 pt word. Only 1673 of these.
+		 * Gold star - 33pt word. In best 10% of words, and only ~0.1% chance
+		 *             of happening on a particular draw
+		 * Silver star - 30pt word. In best 20% of words, about 3.5% chance
+		 * Bronze star - 28pt word. About 10% chance of happening.
+		 */
+		
+		/* MAYBE -- seems to duplicate the star achievements
+		 * 
+		 * 7-letter club - build 7-letter word
+		 * 8-letter club - build 8-letter word
+		 */
+		
+		/*
+		 * Play-history-based achievements
+		 * DONE -- Copycat - Play a word previously played by the other player
+		 * DONE -- Palindrome - Play a palindrome of at least 4 letters
+		 */
+		
+		void doGrowthAchievements(String p1word, String p2word){
+			
+			//First do star awards for big-scoring words
+			int p1wscore = scoreWord(p1word);
+			int p2wscore = scoreWord(p2word);
+			if(p1wscore >= 20){
+				//Star achieved
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 3;
+				de.amount = 0; //bronze
+				if(p1wscore >= 25) de.amount = 1; //silver
+				if(p1wscore >= 27) de.amount = 2; //gold
+				if(p1wscore >= 29) de.amount = 3; //ruby
+				if(p1wscore >= 31) de.amount = 4; //diamond
+				de.x = p1achX-sqSize/8; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p1achX = p1achX + sqSize/2 - sqSize/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 4;
+				de.amount = 0; //bronze
+				if(p1wscore >= 25) de.amount = 1; //silver
+				if(p1wscore >= 27) de.amount = 2; //gold
+				if(p1wscore >= 29) de.amount = 3; //ruby
+				if(p1wscore >= 31) de.amount = 4; //diamond
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+			}
+			if(p2wscore >= 20){
+				//Star achieved
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 3;
+				de.amount = 0; //bronze
+				if(p2wscore >= 25) de.amount = 1; //silver
+				if(p2wscore >= 27) de.amount = 2; //gold
+				if(p2wscore >= 29) de.amount = 3; //ruby
+				if(p2wscore >= 31) de.amount = 4; //diamond
+				de.x = p2achX -sqSize/8; //p2stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p2achX = p2achX + sqSize/2 -sqSize/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 4;
+				de.amount = 0; //bronze
+				if(p2wscore >= 25) de.amount = 1; //silver
+				if(p2wscore >= 27) de.amount = 2; //gold
+				if(p2wscore >= 29) de.amount = 3; //ruby
+				if(p2wscore >= 31) de.amount = 4; //diamond
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+			}
+			
+			
+			
+			//Palindrome
+			boolean isPali = true;
+			if(p1word.length() < 4) isPali = false;
+			for(int i=0; i<p1word.length();i++){
+				if(p1word.charAt(i) != p1word.charAt(p1word.length()-i-1)){
+					isPali = false;
+				}
+			}
+			if(isPali){
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 5;
+				de.award = "Mirror Leaf";
+				de.reason = "Palindrome, 4+ letters";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				p1score += p1word.length();
+				
+				de = new DrawEffect();
+				de.amount = p1word.length();
+				de.type = 0;
+				de.whichPlayer = 0;			
+				de.x = (int) 4*sqSize;
+				de.y = (int) getHeight()-3*sqSize/2;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 3;
+				de.amount = 5; //bronze
+				de.x = p1achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p1achX = p1achX + sqSize/2;
+				deList.add(de);
+			}
+			
+			isPali = true;
+			if(p2word.length() < 4) isPali = false;
+			for(int i=0; i<p2word.length();i++){
+				if(p2word.charAt(i) != p2word.charAt(p2word.length()-i-1)){
+					isPali = false;
+				}
+			}
+			if(isPali){
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 5;
+				de.award = "Mirror Leaf";
+				de.reason = "Palindrome, 4+ letters";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				p2score += p2word.length();
+				
+				de = new DrawEffect();
+				de.amount = p2word.length();
+				de.type = 0;
+				de.whichPlayer = 1;				
+				de.x = (int) 4*sqSize;
+				de.y = (int) getHeight()-3*sqSize/2;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 3;
+				de.amount = 5;
+				de.x = p2achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p2achX = p2achX + sqSize/2;
+				deList.add(de);
+			}
+			
+			
+			
+			//Copycat
+			boolean iscopy = false;
+			for(int i=0; p2words!=null && i<p2words.size(); i++){
+				if(p2words.get(i).equalsIgnoreCase(p1word)){
+					iscopy = true;
+				}
+			}
+			if(iscopy && p1word.length() >= 4){
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 5;
+				de.award = "Copycat, 4+ letters";
+				de.reason = "Repeat opponent's word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				p1score += p1word.length();
+				
+				de = new DrawEffect();
+				de.amount = p1word.length();
+				de.type = 0;
+				de.whichPlayer = 0;			
+				de.x = (int) 4*sqSize;
+				de.y = (int) getHeight()-3*sqSize/2;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 3;
+				de.amount = 6; //copycat
+				de.x = p1achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p1achX = p1achX + sqSize/2;
+				deList.add(de);
+			}
+			iscopy = false;
+			for(int i=0; p1words != null && i<p1words.size(); i++){
+				if(p1words.get(i).equalsIgnoreCase(p2word)){
+					iscopy = true;
+				}
+			}
+			if(iscopy && p2word.length() >= 4){
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 5;
+				de.award = "Copycat, 4+ letters";
+				de.reason = "Repeat opponent's word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				p2score += p2word.length();
+				
+				de = new DrawEffect();
+				de.amount = p2word.length();
+				de.type = 0;
+				de.whichPlayer = 1;			
+				de.x = (int) 4*sqSize;
+				de.y = (int) getHeight()-3*sqSize/2;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 3;
+				de.amount = 6; //copycat
+				de.x = p2achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p2achX = p2achX + sqSize/2;
+				deList.add(de);
+			}
+			
+			
+			
+			if(p1words == null){
+				p1words = new ArrayList<String>();
+			}
+			if(p2words == null){
+				p2words = new ArrayList<String>();
+			}
+			//Do this last
+			p1words.add(p1word);
+			p2words.add(p2word);
+		}
 
 	}
 }
