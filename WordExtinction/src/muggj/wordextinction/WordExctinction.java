@@ -115,10 +115,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Timer;
-
-import muggj.wordextinction.WordExctinction.WEView.DrawEffect;
-
 
 import android.app.Activity;
 
@@ -129,7 +125,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
+
 import android.graphics.Paint.Align;
 
 import android.graphics.drawable.ShapeDrawable;
@@ -145,6 +141,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import com.openfeint.api.OpenFeint;
+import com.openfeint.api.OpenFeintDelegate;
+import com.openfeint.api.OpenFeintSettings;
+import com.openfeint.api.resource.Leaderboard;
+import com.openfeint.api.resource.Score;
+import com.openfeint.api.resource.Achievement;
+import android.widget.Toast; // Used for presenting diagnostic messages.
+
 public class WordExctinction extends Activity  {
 	//CONSTANTS
 	static int MSPERFRAME = 1000/24;
@@ -153,12 +157,17 @@ public class WordExctinction extends Activity  {
 	static int textColor = 0xff000000;
 	static int textBorderColor = 0xffffffff;
 	static int textHighliteColor = 0xffffff00;
+	static final String gameName = "Growth and Decay";
+	static final String gameID = Secrets.gameID;
+	static final String gameKey = Secrets.gameKey;
+	static final String gameSecret = Secrets.gameSecret;
 	
 	//DATA LOADED IN onCreate
 	public HashSet<String> wordSet;
 	Activity mActivity;
 	WEView mView;
 	Random rnd;
+	OpenFeintSettings settings;
 	
 	//DATA LOADED IN onStart, FREED in onStop
 	Bitmap fl1TileImage;
@@ -248,7 +257,7 @@ public class WordExctinction extends Activity  {
 				shearsImage = BitmapFactory.decodeResource(res, R.drawable.gardenshears_h);
 				sickleImage = BitmapFactory.decodeResource(res, R.drawable.sickle_h);
 
-				logoImage = BitmapFactory.decodeResource(res, R.drawable.icon_h);
+				logoImage = BitmapFactory.decodeResource(res, R.drawable.logo_h);
 
 				petal1 = BitmapFactory.decodeResource(res, R.drawable.petal1_h);
 				petal2 = BitmapFactory.decodeResource(res, R.drawable.petal2_h);
@@ -265,7 +274,8 @@ public class WordExctinction extends Activity  {
 
 		if(mGraphicsLevel == 2){
 			//hi-res icons, med-res bgs
-
+			
+			
 			fl1TileImage = null;
 			fl2TileImage = null;
 			fl3TileImage = null;
@@ -335,7 +345,8 @@ public class WordExctinction extends Activity  {
 
 		if(mGraphicsLevel == 1){
 			//mid-res icons, low-res bgs
-
+			
+			
 			fl1TileImage = null;
 			fl2TileImage = null;
 			fl3TileImage = null;
@@ -410,7 +421,8 @@ public class WordExctinction extends Activity  {
 		
 		if(mGraphicsLevel == 0){
 			//low-res everything
-
+			
+			
 			fl1TileImage = null;
 			fl2TileImage = null;
 			fl3TileImage = null;
@@ -533,6 +545,10 @@ public class WordExctinction extends Activity  {
 		bmP = new Paint();
 		bmP.setFilterBitmap(true);
 
+		settings = 
+			new OpenFeintSettings(gameName, gameKey, gameSecret, gameID);
+		OpenFeint.initialize(this, settings, new OpenFeintDelegate() {});
+		
 		mActivity = this;
 	}
 	
@@ -1088,10 +1104,10 @@ public class WordExctinction extends Activity  {
 			/*p1letters[0] = 'j';
 			p1letters[1] = 'u';
 			p1letters[2] = 'm';
-			p1letters[3] = 'b';
+			p1letters[3] = 'p';
 			p1letters[4] = 'o';
-			p1letters[5] = 'o';
-			p1letters[6] = 'b';
+			p1letters[5] = 'f';
+			p1letters[6] = 'f';
 			p1letters[7] = 's';
 			
 			p2letters[0] = 'j';
@@ -1363,7 +1379,8 @@ public class WordExctinction extends Activity  {
 				p2selected = -1;
 				p1selected2 = -1;
 				p2selected2 = -1;
-
+				p1BigMallets = p2BigMallets = 0;
+				
 				if(p1word.length() >= 3){
 					p1BigMallets = 1;
 				}
@@ -2257,6 +2274,25 @@ public class WordExctinction extends Activity  {
 			//First do star awards for big-scoring words
 			int p1wscore = scoreWord(p1word);
 			int p2wscore = scoreWord(p2word);
+			
+			int mscore = (p1wscore > p2wscore) ? p1wscore : p2wscore;
+			long scoreValue = mscore; 
+			Score s = new Score(scoreValue, null); 
+			// Second parameter is null to indicate that custom display text is not used. 
+			Leaderboard l = new Leaderboard("651974"); 
+			s.submitTo(l, new Score.SubmitToCB() { 
+			@Override public void onSuccess(boolean newHighScore) { 
+			 // sweet, score was posted 
+			  WordExctinction.this.setResult(Activity.RESULT_OK); 
+			  
+			} 
+			@Override public void onFailure(String exceptionMessage) { 
+			  Toast.makeText(WordExctinction.this, 
+			    "Error (" + exceptionMessage + ") posting score.", 
+			    Toast.LENGTH_SHORT).show(); 
+			  WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+			   } });
+			
 			if(p1wscore >= 20){
 				//Star achieved
 				DrawEffect de = new DrawEffect();
@@ -2283,6 +2319,24 @@ public class WordExctinction extends Activity  {
 				de.x = getWidth()/2;
 				de.y = 3*getHeight()/4;
 				deList.add(de);
+				
+				String whichAch = "838672";
+				if(p1wscore >= 25) whichAch = "838682"; //silver
+				if(p1wscore >= 27) whichAch = "838692"; //gold
+				if(p1wscore >= 29) whichAch = "838702"; //ruby
+				if(p1wscore >= 31) whichAch = "838712";
+				new Achievement(whichAch).unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+				
 			}
 			if(p2wscore >= 20){
 				//Star achieved
@@ -2310,6 +2364,23 @@ public class WordExctinction extends Activity  {
 				de.x = getWidth()/2;
 				de.y = 3*getHeight()/4;
 				deList.add(de);
+				
+				String whichAch = "838672";
+				if(p2wscore >= 25) whichAch = "838682"; //silver
+				if(p2wscore >= 27) whichAch = "838692"; //gold
+				if(p2wscore >= 29) whichAch = "838702"; //ruby
+				if(p2wscore >= 31) whichAch = "838712";
+				new Achievement(whichAch).unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
 			}
 			
 			
@@ -2350,7 +2421,21 @@ public class WordExctinction extends Activity  {
 				de.y = getHeight()/2+(sqSize/2);
 				p1achX = p1achX + sqSize/2;
 				deList.add(de);
+				
+				
+				new Achievement("838732").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
 			}
+			
 			
 			isPali = true;
 			if(p2word.length() < 4) isPali = false;
@@ -2387,6 +2472,18 @@ public class WordExctinction extends Activity  {
 				de.y = getHeight()/2+(sqSize/2);
 				p2achX = p2achX + sqSize/2;
 				deList.add(de);
+				
+				new Achievement("838732").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+					   WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
 			}
 			
 			
@@ -2426,6 +2523,18 @@ public class WordExctinction extends Activity  {
 				de.y = getHeight()/2+(sqSize/2);
 				p1achX = p1achX + sqSize/2;
 				deList.add(de);
+				
+				new Achievement("838722").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
 			}
 			iscopy = false;
 			for(int i=0; p1words != null && i<p1words.size(); i++){
@@ -2461,6 +2570,18 @@ public class WordExctinction extends Activity  {
 				de.y = getHeight()/2+(sqSize/2);
 				p2achX = p2achX + sqSize/2;
 				deList.add(de);
+				
+				new Achievement("838722").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
 			}
 			
 			

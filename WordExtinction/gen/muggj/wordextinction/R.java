@@ -10,6 +10,9 @@ package muggj.wordextinction;
 public final class R {
     public static final class attr {
     }
+    public static final class color {
+        public static final int of_transparent=0x7f050000;
+    }
     public static final class drawable {
         public static final int actbut_h=0x7f020000;
         public static final int actbut_m=0x7f020001;
@@ -47,42 +50,139 @@ public final class R {
         public static final int leaf_gold_h=0x7f020021;
         public static final int leaf_ruby_h=0x7f020022;
         public static final int leaf_silver_h=0x7f020023;
-        public static final int mirror_leaf_h=0x7f020024;
-        public static final int petal1_h=0x7f020025;
-        public static final int petal1_m=0x7f020026;
-        public static final int petal1_s=0x7f020027;
-        public static final int petal2_h=0x7f020028;
-        public static final int petal2_m=0x7f020029;
-        public static final int petal2_s=0x7f02002a;
-        public static final int petal3_h=0x7f02002b;
-        public static final int petal3_m=0x7f02002c;
-        public static final int petal3_s=0x7f02002d;
-        public static final int pollen_h=0x7f02002e;
-        public static final int pollen_m=0x7f02002f;
-        public static final int pollen_s=0x7f020030;
-        public static final int sickle_h=0x7f020031;
-        public static final int sickle_m=0x7f020032;
-        public static final int sickle_s=0x7f020033;
-        public static final int splash0068_m=0x7f020034;
-        public static final int splash0068_s=0x7f020035;
+        public static final int logo_h=0x7f020024;
+        public static final int logo_m=0x7f020025;
+        public static final int logo_s=0x7f020026;
+        public static final int mirror_leaf_h=0x7f020027;
+        public static final int of_achievement_icon_frame=0x7f020028;
+        public static final int of_achievement_icon_locked=0x7f020029;
+        public static final int of_achievement_icon_unlocked=0x7f02002a;
+        public static final int of_achievement_notification_bkg=0x7f02002b;
+        public static final int of_achievement_notification_locked=0x7f02002c;
+        public static final int of_feint_points_white=0x7f02002d;
+        public static final int of_icon_dashboard_exit=0x7f02002e;
+        public static final int of_icon_dashboard_home=0x7f02002f;
+        public static final int of_icon_dashboard_settings=0x7f020030;
+        public static final int of_icon_highscore_notification=0x7f020031;
+        public static final int of_native_loader=0x7f020032;
+        public static final int of_native_loader_progress=0x7f020033;
+        public static final int of_native_loader_progress_01=0x7f020034;
+        public static final int of_native_loader_progress_02=0x7f020035;
+        public static final int of_native_loader_progress_03=0x7f020036;
+        public static final int of_native_loader_progress_04=0x7f020037;
+        public static final int of_native_loader_progress_05=0x7f020038;
+        public static final int of_native_loader_progress_06=0x7f020039;
+        public static final int of_native_loader_progress_07=0x7f02003a;
+        public static final int of_native_loader_progress_08=0x7f02003b;
+        public static final int of_native_loader_progress_09=0x7f02003c;
+        public static final int of_native_loader_progress_10=0x7f02003d;
+        public static final int of_native_loader_progress_11=0x7f02003e;
+        public static final int of_native_loader_progress_12=0x7f02003f;
+        public static final int of_notification_bkg=0x7f020040;
+        public static final int petal1_h=0x7f020041;
+        public static final int petal1_m=0x7f020042;
+        public static final int petal1_s=0x7f020043;
+        public static final int petal2_h=0x7f020044;
+        public static final int petal2_m=0x7f020045;
+        public static final int petal2_s=0x7f020046;
+        public static final int petal3_h=0x7f020047;
+        public static final int petal3_m=0x7f020048;
+        public static final int petal3_s=0x7f020049;
+        public static final int pollen_h=0x7f02004a;
+        public static final int pollen_m=0x7f02004b;
+        public static final int pollen_s=0x7f02004c;
+        public static final int sickle_h=0x7f02004d;
+        public static final int sickle_m=0x7f02004e;
+        public static final int sickle_s=0x7f02004f;
+        public static final int splash0068_m=0x7f020050;
+        public static final int splash0068_s=0x7f020051;
     }
     public static final class id {
-        public static final int new_game=0x7f060000;
+        public static final int exit_feint=0x7f090011;
+        public static final int home=0x7f09000f;
+        public static final int nativebrowser=0x7f090008;
+        public static final int new_game=0x7f09000e;
+        public static final int of_achievement_icon=0x7f090001;
+        public static final int of_achievement_icon_frame=0x7f090002;
+        public static final int of_achievement_notification=0x7f090000;
+        public static final int of_achievement_progress_icon=0x7f090006;
+        public static final int of_achievement_score=0x7f090004;
+        public static final int of_achievement_score_icon=0x7f090005;
+        public static final int of_achievement_text=0x7f090003;
+        public static final int of_icon=0x7f090009;
+        public static final int of_text=0x7f09000a;
+        public static final int of_text1=0x7f09000b;
+        public static final int of_text2=0x7f09000c;
+        public static final int progress=0x7f090007;
+        public static final int settings=0x7f090010;
+        public static final int webview=0x7f09000d;
+    }
+    public static final class layout {
+        public static final int of_achievement_notification=0x7f030000;
+        public static final int of_native_loader=0x7f030001;
+        public static final int of_nativebrowser=0x7f030002;
+        public static final int of_simple_notification=0x7f030003;
+        public static final int of_two_line_notification=0x7f030004;
+        public static final int of_webnav=0x7f030005;
     }
     public static final class menu {
-        public static final int menu=0x7f050000;
+        public static final int menu=0x7f080000;
+        public static final int of_dashboard=0x7f080001;
     }
     public static final class raw {
-        public static final int mostcommonwords=0x7f030000;
-        public static final int out=0x7f030001;
-        public static final int rt=0x7f030002;
-        public static final int ruletest=0x7f030003;
-        public static final int unassailable=0x7f030004;
-        public static final int unassailable2=0x7f030005;
-        public static final int wordlistoneperline=0x7f030006;
+        public static final int mostcommonwords=0x7f040000;
+        public static final int out=0x7f040001;
+        public static final int ruletest=0x7f040002;
+        public static final int unassailable=0x7f040003;
+        public static final int unassailable2=0x7f040004;
+        public static final int wordlistoneperline=0x7f040005;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
-        public static final int new_game=0x7f040001;
+        public static final int app_name=0x7f060029;
+        public static final int new_game=0x7f06002a;
+        public static final int of_achievement_load_null=0x7f060008;
+        public static final int of_achievement_unlock_null=0x7f060007;
+        public static final int of_achievement_unlocked=0x7f060016;
+        public static final int of_banned_dialog=0x7f060023;
+        public static final int of_bitmap_decode_error=0x7f060018;
+        public static final int of_cancel=0x7f060012;
+        public static final int of_cant_compress_blob=0x7f060014;
+        public static final int of_crash_report_query=0x7f060020;
+        public static final int of_device=0x7f06000e;
+        public static final int of_error_parsing_error_message=0x7f06001a;
+        public static final int of_exit_feint=0x7f060025;
+        public static final int of_file_not_found=0x7f060019;
+        public static final int of_home=0x7f060022;
+        public static final int of_id_cannot_be_null=0x7f060002;
+        public static final int of_io_exception_on_download=0x7f060013;
+        public static final int of_ioexception_reading_body=0x7f06001c;
+        public static final int of_key_cannot_be_null=0x7f060000;
+        public static final int of_low_memory_profile_pic=0x7f06000a;
+        public static final int of_name_cannot_be_null=0x7f060003;
+        public static final int of_no=0x7f06000f;
+        public static final int of_no_blob=0x7f060015;
+        public static final int of_no_video=0x7f060021;
+        public static final int of_nodisk=0x7f06000c;
+        public static final int of_now_logged_in_as_format=0x7f06001e;
+        public static final int of_null_icon_url=0x7f060006;
+        public static final int of_offline_notification=0x7f060026;
+        public static final int of_offline_notification_line2=0x7f060027;
+        public static final int of_ok=0x7f060011;
+        public static final int of_profile_pic_changed=0x7f06001f;
+        public static final int of_profile_picture_download_failed=0x7f06000b;
+        public static final int of_profile_url_null=0x7f060009;
+        public static final int of_score_submitted_notification=0x7f060028;
+        public static final int of_sdcard=0x7f06000d;
+        public static final int of_secret_cannot_be_null=0x7f060001;
+        public static final int of_server_error_code_format=0x7f06001b;
+        public static final int of_settings=0x7f060024;
+        public static final int of_switched_accounts=0x7f06001d;
+        public static final int of_timeout=0x7f060017;
+        public static final int of_unexpected_response_format=0x7f060004;
+        public static final int of_unknown_server_error=0x7f060005;
+        public static final int of_yes=0x7f060010;
+    }
+    public static final class style {
+        public static final int OFLoading=0x7f070000;
     }
 }
