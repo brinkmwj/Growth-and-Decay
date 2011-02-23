@@ -180,7 +180,11 @@ public class WordExctinction extends Activity  {
 	Bitmap leaf_diamond;
 	Bitmap mirror_leaf;
 	Bitmap cat_leaf;
-
+	Bitmap thumb_green;
+	Bitmap thumb_gold;
+	Bitmap thumb_gray;
+	Bitmap thumb_black;
+	
 	Bitmap gbg;
 	Bitmap dbg;
 	Bitmap splash;
@@ -246,6 +250,11 @@ public class WordExctinction extends Activity  {
 				mirror_leaf = BitmapFactory.decodeResource(res, R.drawable.mirror_leaf_h);
 				cat_leaf = BitmapFactory.decodeResource(res, R.drawable.cat_leaf_h);
 				
+				thumb_green = BitmapFactory.decodeResource(res, R.drawable.thumb_green_h);
+				thumb_gray = BitmapFactory.decodeResource(res, R.drawable.thumb_gray_h);
+				thumb_black = BitmapFactory.decodeResource(res, R.drawable.thumb_black_h);
+				thumb_gold = BitmapFactory.decodeResource(res, R.drawable.thumb_gold_h);
+				
 				gbg = BitmapFactory.decodeResource(res, R.drawable.bg0030_h);
 				dbg = BitmapFactory.decodeResource(res, R.drawable.bg0060_h);
 				splash = BitmapFactory.decodeResource(res, R.drawable.splash0068_m);
@@ -287,6 +296,11 @@ public class WordExctinction extends Activity  {
 			mirror_leaf = null;
 			cat_leaf = null;
 			
+			thumb_green = null;
+			thumb_gray = null;
+			thumb_black = null;
+			thumb_gold = null;
+			
 			gbg = null;
 			dbg = null;
 			splash = null;
@@ -317,6 +331,11 @@ public class WordExctinction extends Activity  {
 				leaf_diamond = BitmapFactory.decodeResource(res, R.drawable.leaf_diamond_h);
 				mirror_leaf = BitmapFactory.decodeResource(res, R.drawable.mirror_leaf_h);
 				cat_leaf = BitmapFactory.decodeResource(res, R.drawable.cat_leaf_h);
+				
+				thumb_green = BitmapFactory.decodeResource(res, R.drawable.thumb_green_h);
+				thumb_gray = BitmapFactory.decodeResource(res, R.drawable.thumb_gray_h);
+				thumb_black = BitmapFactory.decodeResource(res, R.drawable.thumb_black_h);
+				thumb_gold = BitmapFactory.decodeResource(res, R.drawable.thumb_gold_h);
 				
 				gbg = BitmapFactory.decodeResource(res, R.drawable.bg0030_m);
 				dbg = BitmapFactory.decodeResource(res, R.drawable.bg0060_m);
@@ -359,6 +378,11 @@ public class WordExctinction extends Activity  {
 			mirror_leaf = null;
 			cat_leaf = null;
 			
+			thumb_green = null;
+			thumb_gray = null;
+			thumb_black = null;
+			thumb_gold = null;
+			
 			gbg = null;
 			dbg = null;
 			splash = null;
@@ -390,6 +414,12 @@ public class WordExctinction extends Activity  {
 				leaf_diamond = BitmapFactory.decodeResource(res, R.drawable.leaf_diamond_h);
 				mirror_leaf = BitmapFactory.decodeResource(res, R.drawable.mirror_leaf_h);
 				cat_leaf = BitmapFactory.decodeResource(res, R.drawable.cat_leaf_h);
+				
+				thumb_green = BitmapFactory.decodeResource(res, R.drawable.thumb_green_h);
+				thumb_gray = BitmapFactory.decodeResource(res, R.drawable.thumb_gray_h);
+				thumb_black = BitmapFactory.decodeResource(res, R.drawable.thumb_black_h);
+				thumb_gold = BitmapFactory.decodeResource(res, R.drawable.thumb_gold_h);
+				
 				
 				gbg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
 				dbg = BitmapFactory.decodeResource(res, R.drawable.bg0060_s);
@@ -435,6 +465,11 @@ public class WordExctinction extends Activity  {
 			mirror_leaf = null;
 			cat_leaf = null;
 			
+			thumb_green = null;
+			thumb_gray = null;
+			thumb_black = null;
+			thumb_gold = null;
+			
 			gbg = null;
 			dbg = null;
 			splash = null;
@@ -466,6 +501,11 @@ public class WordExctinction extends Activity  {
 				leaf_diamond = BitmapFactory.decodeResource(res, R.drawable.leaf_diamond_h);
 				mirror_leaf = BitmapFactory.decodeResource(res, R.drawable.mirror_leaf_h);
 				cat_leaf = BitmapFactory.decodeResource(res, R.drawable.cat_leaf_h);
+				
+				thumb_green = BitmapFactory.decodeResource(res, R.drawable.thumb_green_h);
+				thumb_gray = BitmapFactory.decodeResource(res, R.drawable.thumb_gray_h);
+				thumb_black = BitmapFactory.decodeResource(res, R.drawable.thumb_black_h);
+				thumb_gold = BitmapFactory.decodeResource(res, R.drawable.thumb_gold_h);
 				
 				gbg = BitmapFactory.decodeResource(res, R.drawable.bg0030_s);
 				dbg = BitmapFactory.decodeResource(res, R.drawable.bg0060_s);
@@ -684,7 +724,10 @@ public class WordExctinction extends Activity  {
 		ArrayList<String> p2words;
 		int p1achX;
 		int p2achX;
-
+		ArrayList<Integer> p1dlens;
+		ArrayList<Integer> p2dlens;
+		ArrayList<Boolean> p1successes;
+		ArrayList<Boolean> p2successes;
 		
 		
 		public class DrawEffect {
@@ -854,6 +897,14 @@ public class WordExctinction extends Activity  {
 						lbmp = mirror_leaf;
 					} else if(amount == 6){
 						lbmp = cat_leaf;
+					} else if(amount == 7){
+						lbmp = thumb_green;
+					}else if(amount == 8){
+						lbmp = thumb_gold;
+					}else if(amount == 9){
+						lbmp = thumb_gray;
+					}else if(amount == 10){
+						lbmp = thumb_black;
 					}
 						
 					if(whichPlayer == 1){
@@ -861,6 +912,7 @@ public class WordExctinction extends Activity  {
 						c.rotate(180,getWidth()/2,getHeight()/2);
 					}
 					p.setFilterBitmap(true);
+					p.setAntiAlias(true);
 					//(12,38) to (89,115)
 					
 					c.drawBitmap(lbmp,null, new Rect(x, y, x+(sqSize/2), y+(sqSize/2)), p);
@@ -1101,22 +1153,22 @@ public class WordExctinction extends Activity  {
 			}
 			
 			//TODO REMOVE THIS
-			/*p1letters[0] = 'j';
-			p1letters[1] = 'u';
-			p1letters[2] = 'm';
-			p1letters[3] = 'p';
-			p1letters[4] = 'o';
-			p1letters[5] = 'f';
-			p1letters[6] = 'f';
+			/*p1letters[0] = 'h';
+			p1letters[1] = 'e';
+			p1letters[2] = 'a';
+			p1letters[3] = 'r';
+			p1letters[4] = 't';
+			p1letters[5] = 'e';
+			p1letters[6] = 'n';
 			p1letters[7] = 's';
 			
-			p2letters[0] = 'j';
-			p2letters[1] = 'u';
-			p2letters[2] = 'm';
-			p2letters[3] = 'b';
-			p2letters[4] = 'o';
-			p2letters[5] = 'o';
-			p2letters[6] = 'b';
+			p2letters[0] = 'h';
+			p2letters[1] = 'e';
+			p2letters[2] = 'a';
+			p2letters[3] = 'r';
+			p2letters[4] = 't';
+			p2letters[5] = 'e';
+			p2letters[6] = 'n';
 			p2letters[7] = 's';*/
 		}
 
@@ -1171,6 +1223,10 @@ public class WordExctinction extends Activity  {
 			p2words = new ArrayList<String>();
 			p1achX = 0;
 			p2achX = 0;
+			p1dlens = new ArrayList<Integer>();
+			p2dlens = new ArrayList<Integer>();
+			p1successes = new ArrayList<Boolean>();
+			p2successes = new ArrayList<Boolean>();
 			
 			deList.clear();
 			
@@ -1346,6 +1402,8 @@ public class WordExctinction extends Activity  {
 				//If both players are done, total points and reset
 				//whichBG = 0;
 
+				
+				
 				p1done = false;
 				p2done = false;
 				p1DecayDone = 0;
@@ -1397,6 +1455,10 @@ public class WordExctinction extends Activity  {
 				mode = 0;
 				//whichBG = 0;
 
+				boolean p1s = (p1word.length() == 0);
+				boolean p2s = (p2word.length() == 0);
+				doDecayAchievements(p1s, p2s, p1len, p2len);
+				
 				p1done = false;
 				p2done = false;
 				p1DecayDone = 0;
@@ -2585,6 +2647,135 @@ public class WordExctinction extends Activity  {
 			}
 			
 			
+			if(p1word.length() == 7){
+				//Green thumb
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 5;
+				de.award = "Green Thumb";
+				de.reason = "7-letter word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 3;
+				de.amount = 7; //greenthumb
+				de.x = p1achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p1achX = p1achX + sqSize/2;
+				deList.add(de);
+				
+				new Achievement("842322").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+			}
+			if(p2word.length() == 7){
+				//Green thumb
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 5;
+				de.award = "Green Thumb";
+				de.reason = "7-letter word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 3;
+				de.amount = 7; //greenthumb
+				de.x = p2achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p2achX = p2achX + sqSize/2;
+				deList.add(de);
+				
+				new Achievement("842322").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+			}
+			if(p1word.length() == 8){
+				//Gold thumb
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 5;
+				de.award = "Gold Thumb";
+				de.reason = "8-letter word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 3;
+				de.amount = 8; //gold thumb
+				de.x = p1achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p1achX = p1achX + sqSize/2;
+				deList.add(de);
+				
+				new Achievement("842332").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+			}
+			if(p2word.length() == 8){
+				//Gold thumb
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 5;
+				de.award = "Gold Thumb";
+				de.reason = "8-letter word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 3;
+				de.amount = 8; //gold thumb
+				de.x = p2achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p2achX = p2achX + sqSize/2;
+				deList.add(de);
+				
+				new Achievement("842332").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+			}
+			
 			
 			if(p1words == null){
 				p1words = new ArrayList<String>();
@@ -2597,5 +2788,156 @@ public class WordExctinction extends Activity  {
 			p2words.add(p2word);
 		}
 
+		
+		void doDecayAchievements(boolean p1success, boolean p2success, int ip1len, int ip2len){
+			if(p1successes == null){
+				p1successes = new ArrayList<Boolean>();
+			}
+			if(p2successes == null){
+				p2successes = new ArrayList<Boolean>();
+			}
+			if(p1dlens == null){
+				p1dlens = new ArrayList<Integer>();
+			}
+			if(p2dlens == null){
+				p2dlens = new ArrayList<Integer>();
+			}
+			
+			if(ip1len == 7){
+				//Gray thumb
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 5;
+				de.award = "Gray Thumb";
+				de.reason = "7-letter word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 3;
+				de.amount = 9; //gray thumb
+				de.x = p1achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p1achX = p1achX + sqSize/2;
+				deList.add(de);
+				
+				new Achievement("842342").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+			}
+			if(ip2len == 7){
+				//Gray thumb
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 5;
+				de.award = "Gray Thumb";
+				de.reason = "7-letter word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 3;
+				de.amount = 9; //gray thumb
+				de.x = p2achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p2achX = p2achX + sqSize/2;
+				deList.add(de);
+				
+				new Achievement("842342").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+			}
+			if(ip1len == 8){
+				//Black thumb
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 5;
+				de.award = "Black Thumb";
+				de.reason = "8-letter word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 0;
+				de.type = 3;
+				de.amount = 10; //black thumb
+				de.x = p1achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p1achX = p1achX + sqSize/2;
+				deList.add(de);
+				
+				new Achievement("842352").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+			}
+			if(ip2len == 8){
+				//Black thumb
+				DrawEffect de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 5;
+				de.award = "Black Thumb";
+				de.reason = "8-letter word";
+				de.x = getWidth()/2;
+				de.y = 3*getHeight()/4;
+				deList.add(de);
+				
+				de = new DrawEffect();
+				de.whichPlayer = 1;
+				de.type = 3;
+				de.amount = 10; //black thumb
+				de.x = p2achX; //p1stars*(sqSize/2);
+				de.y = getHeight()/2+(sqSize/2);
+				p2achX = p2achX + sqSize/2;
+				deList.add(de);
+				
+				new Achievement("842352").unlock(new Achievement.UnlockCB () { 
+					  @Override public void onSuccess(boolean newUnlock) { 
+						  WordExctinction.this.setResult(Activity.RESULT_OK); 
+					 } 
+					 @Override public void onFailure(String exceptionMessage) { 
+					   Toast.makeText( WordExctinction.this, 
+					    "Error (" + exceptionMessage + ") unlocking achievement.", 
+					    Toast.LENGTH_SHORT).show(); 
+					   WordExctinction.this.setResult(Activity.RESULT_CANCELED); 
+					 } 
+					});
+			}
+			
+			p1successes.add(new Boolean(p1success));
+			p2successes.add(new Boolean(p2success));
+			p1dlens.add(ip1len);
+			p2dlens.add(ip2len);
+			
+		}
+		
 	}
 }

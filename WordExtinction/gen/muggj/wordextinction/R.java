@@ -96,6 +96,10 @@ public final class R {
         public static final int sickle_s=0x7f02004f;
         public static final int splash0068_m=0x7f020050;
         public static final int splash0068_s=0x7f020051;
+        public static final int thumb_black_h=0x7f020052;
+        public static final int thumb_gold_h=0x7f020053;
+        public static final int thumb_gray_h=0x7f020054;
+        public static final int thumb_green_h=0x7f020055;
     }
     public static final class id {
         public static final int exit_feint=0x7f090011;
